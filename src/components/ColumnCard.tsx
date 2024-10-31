@@ -211,7 +211,7 @@ const ColumnCard: React.FC<Props> = ({ data }) => {
             <h3 className="ttl">{data.title}</h3>
           </div>
           <div className="arrow">
-            <svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" xmlSpace="preserve">
+            <svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
             <g>
               <polygon className="st0" points="243.253,0 202.714,40.539 389.5,227.335 12.736,227.335 12.736,284.665 389.5,284.665 
                 202.714,471.461 243.253,512 499.264,256 	"></polygon>

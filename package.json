@@ -16,7 +16,6 @@
     "@types/react-dom": "^18.3.0",
     "astro": "^4.14.2",
     "gsap": "^3.12.5",
-    "lenis": "^1.1.14",
     "luxy.js": "^0.1.0",
     "newt-client-js": "^3.3.3",
     "react": "^18.3.1",

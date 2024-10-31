@@ -501,8 +501,6 @@ const { pageId, title, description } = Astro.props;
 	import gsap from "../scripts/gsap";
     import { navigate } from 'astro:transitions/client';
     import luxy from 'luxy.js';
-    import Lenis from 'lenis'
-    import 'lenis/dist/lenis.css'
 
     function initHmbMenu() {
         const hmbBtn = document.querySelector('.js-hmb-btn');
@@ -632,33 +630,22 @@ const { pageId, title, description } = Astro.props;
         );
     }
 
-    // function initLuxy() {
-    //     if (typeof luxy !== 'undefined') {
-    //         luxy.init({
-    //             wrapper: '#luxy',
-    //             targets: '.luxy-el',
-    //             wrapperSpeed: 0.08
-    //         });
-    //     } else {
-    //         console.error('luxy is not defined');
-    //     }
-    // }
+    function initLuxy() {
+        if (typeof luxy !== 'undefined') {
+            luxy.init({
+                wrapper: '#luxy',
+                targets: '.luxy-el',
+                wrapperSpeed: 0.08
+            });
+        } else {
+            console.error('luxy is not defined');
+        }
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
         setupBubbles();
         setInterval(handleOffscreenBubbles, 50);
         initHmbMenu();
-        // initLuxy();
-
-        // Initialize Lenis
-        const lenis = new Lenis();
-
-        // Use requestAnimationFrame to continuously update the scroll
-        function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-        }
-
-        requestAnimationFrame(raf);
+        initLuxy();
     });
 </script>
