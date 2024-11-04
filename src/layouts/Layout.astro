@@ -140,6 +140,10 @@ const { pageId, title, description } = Astro.props;
         overflow: hidden;
     }
 
+    .sec-inner {
+        padding: 10rem 0;
+    }
+
     #animation-container {
         position: fixed;
         top: 0;
@@ -495,12 +499,25 @@ const { pageId, title, description } = Astro.props;
         from { left: 100%; }
         to   { left: -100px; }
     }
+
+    .clip-path {
+		clip-path: inset(0 100% 0 0);
+
+	}
+	.clip-path-reverse {
+    clip-path: inset(0 0 0 100%);
+}
+	.clip-path-top {
+    clip-path: inset(100% 0 0 0);
+}
 </style>
 
 <script>
 	import gsap from "../scripts/gsap";
     import { navigate } from 'astro:transitions/client';
     import luxy from 'luxy.js';
+    import Lenis from 'lenis'
+    import 'lenis/dist/lenis.css'
 
     function initHmbMenu() {
         const hmbBtn = document.querySelector('.js-hmb-btn');
@@ -529,7 +546,9 @@ const { pageId, title, description } = Astro.props;
 
     document.addEventListener('astro:page-load', () => {
         setupBubbles();
-        initLuxy();
+        // initLuxy();
+        initLenis();
+        initClipPathAnimations();
 
         const bodyId = document.querySelector('body').getAttribute('data-pageid');
         const isTop = bodyId === 'top';
@@ -563,19 +582,6 @@ const { pageId, title, description } = Astro.props;
             stripesWrapper.classList.add('stripes-hidden');
         }, stripes.length * 100 + 500); // アニメーション完了後、少し余裕を持たせて非表示に
     }
-
-    // function animatePageExit() {
-    //     const stripes = document.querySelectorAll('.stripe');
-    //     const stripesWrapper = document.querySelector('.stripes');
-    //     const contentWrapper = document.querySelector('.content-wrapper');
-        
-    //     contentWrapper.classList.remove('visible');
-    //     stripesWrapper.classList.remove('stripes-hidden');
-        
-    //     stripes.forEach((stripe) => {
-    //         stripe.classList.remove('stripe-exit');
-    //     });
-    // }
 
     // カスタムリンクの処理
     document.addEventListener('click', (e) => {
@@ -630,22 +636,100 @@ const { pageId, title, description } = Astro.props;
         );
     }
 
-    function initLuxy() {
-        if (typeof luxy !== 'undefined') {
-            luxy.init({
-                wrapper: '#luxy',
-                targets: '.luxy-el',
-                wrapperSpeed: 0.08
-            });
-        } else {
-            console.error('luxy is not defined');
+    function initLenis() {
+        const lenis = new Lenis();
+
+        // Use requestAnimationFrame to continuously update the scroll
+        function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
         }
+
+        requestAnimationFrame(raf);
     }
+
+    // クリップパスアニメーション
+    // window.addEventListener('load', () => {
+	// 	setTimeout(() => {
+	// 		const animatedElements = document.querySelectorAll(".clip-path");
+
+	// 		// クリップパス
+	// 		animatedElements.forEach((element) => {
+	// 			gsap.to(element, {
+	// 				clipPath: 'inset(0 0% 0 0)',
+	// 				duration: 1.5,
+	// 				ease: 'power2.out',
+	// 				scrollTrigger: {
+	// 					trigger: element,
+	// 					start: 'top 80%',
+	// 				}
+	// 			});
+	// 		});
+
+	// 		const reverseElements = document.querySelectorAll(".clip-path-reverse");
+	// 		reverseElements.forEach((element) => {
+	// 			gsap.to(element, {
+	// 				clipPath: 'inset(0 0 0 0%)',
+	// 				duration: 1.5,
+	// 				ease: 'power2.out',
+	// 				scrollTrigger: {
+	// 					trigger: element,
+	// 					start: 'top 80%',
+	// 				}
+	// 			});
+	// 		});
+	// 		const topElements = document.querySelectorAll(".clip-path-top");
+	// 		topElements.forEach((element) => {
+	// 			gsap.to(element, {
+	// 				clipPath: 'inset(0% 0 0 0)',
+	// 				duration: 1.5,
+	// 				ease: 'power2.out',
+	// 				scrollTrigger: {
+	// 					trigger: element,
+	// 					start: 'top 80%',
+	// 				}
+	// 			});
+	// 		});
+	// 	}, 100);
+	// })
+
+    function initClipPathAnimations() {
+        const animatedElements = document.querySelectorAll(".clip-path");
+
+        // クリップパス
+        animatedElements.forEach((element) => {
+            gsap.to(element, {
+                clipPath: 'inset(0 0% 0 0)',
+                duration: 1.5,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: element,
+                    start: 'top 80%',
+                }
+            });
+        });
+    }
+
+    // フェードイン
+	gsap.utils.toArray('.fade-in').forEach((element) => {
+			gsap.from(element, {
+					opacity: 0,
+					y: 30,
+					duration: 1,
+					ease: "power2.out",
+					scrollTrigger: {
+							trigger: element,
+							start: "top 70%",
+							toggleActions: "play none none reverse"
+					}
+			});
+	});
 
     document.addEventListener('DOMContentLoaded', () => {
         setupBubbles();
         setInterval(handleOffscreenBubbles, 50);
         initHmbMenu();
-        initLuxy();
+        initLenis();
+        initClipPathAnimations();
     });
 </script>

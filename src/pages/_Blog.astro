@@ -1,4 +1,19 @@
-<div id="blog" class="blog">
+---
+import BtnA from "../components/Btn-a.astro"
+import ColumnCard from "../components/ColumnCard"
+import { newtClient } from "../lib/newt"
+import type { Article } from '../lib/newt'
+
+const {items: articles} = await newtClient.getContents<Article>({
+  appUid: 'blog',
+  modelUid: 'article',
+    query: {
+      limit: 6,
+    },
+})
+---
+
+<div id="blog" class="blog sec-inner">
   <div class="l-inner blog__inner">
     <div class="blog__text">
       <span class="layer-open blog-trigger">
@@ -10,10 +25,25 @@
         </svg>
       </span>
     </div>
-    <p class="blog__heading">
-      From Basics to Advanced: <br>
-      Web Development Tips and Tricks
-    </p>
+    <div class="blog__contnet">
+      <div class="l-section">
+        <div class="lcolumn__contentlinner">
+          <ul class="column__content js-column">
+            {articles.map((item) => {
+              return (
+                <li class="column__card">
+                  <ColumnCard data={item} />
+                </li>
+              );
+            })}
+          </ul>
+
+          <div class="u-align-c column__btn">
+            <BtnA text="All View" href="/blog" />
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="blog-open blog-trigger">
       <svg id="_レイヤー_1" data-name="レイヤー 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.41 16.36">
         <line style="fill: none; stroke: #231815; stroke-miterlimit: 20; stroke-width: 2px;" x1="38.24" y1="8.18" y2="8.18"/>
@@ -49,7 +79,7 @@
       }
 
       svg {
-        height: vw-pc(300);
+        height: vw-pc(200);
         width: auto;
 
         @include max-screen($bp-sp) {
@@ -75,6 +105,23 @@
         margin-bottom: 3rem;
       }
     }
+  }
+
+  .column__content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: vw-pc(30);
+    margin-bottom: vw-pc(50);
+
+    @include max-screen($bp-sp) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+  }
+
+  .column__card {
+    width: 100%;
   }
 
   .blog-open {
@@ -171,40 +218,5 @@
 
     createTrigger('blog', 'blog-path');
 
-    // ホバーエフェクトの追加
-    const blogLink = document.querySelector('.blog__text .layer-open');
-    const arrow = document.querySelector('.blog-open');
-    const blogPaths = document.querySelectorAll('.blog-path');
-    const blogLayer = document.querySelector('#blogLayer');
-    const blogTriggers = document.querySelectorAll('.blog-trigger');
-
-    blogTriggers.forEach((trigger) => {
-      trigger.addEventListener('click', (e) => {
-        e.preventDefault();
-        blogLayer.classList.add('active');
-        document.body.classList.add('no-scroll');
-      });
-    });
-
-    function applyHoverEffect(element, colorOnHover, colorOnLeave) {
-      element.addEventListener('mouseenter', () => {
-        blogPaths.forEach((path, index) => {
-          path.style.transition = `fill 0.5s ease ${index * 0.05}s`;
-          path.style.fill = colorOnHover;
-        });
-        arrow.classList.add('hover');
-      });
-
-      element.addEventListener('mouseleave', () => {
-        blogPaths.forEach((path, index) => {
-          path.style.transition = `fill 0.5s ease ${index * 0.05}s`;
-          path.style.fill = colorOnLeave;
-        });
-        arrow.classList.remove('hover');
-      });
-    }
-
-    applyHoverEffect(blogLink, '#ff9326', '#000');
-    applyHoverEffect(arrow, '#ff9326', '#000');
   });
 </script>
