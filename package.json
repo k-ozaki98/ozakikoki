@@ -29,6 +29,7 @@
     "node": "20.16.0"
   },
   "devDependencies": {
-    "@babel/preset-react": "^7.24.7"
+    "@babel/preset-react": "^7.24.7",
+    "@types/grecaptcha": "^3.0.9"
   }
 }

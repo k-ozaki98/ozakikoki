@@ -29,12 +29,138 @@
         </p>
       </div>
     </section>
-    <!-- <div class="about-open about-trigger">
-      <svg id="_レイヤー_1" data-name="レイヤー 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.41 16.36">
-        <line style="fill: none; stroke: #231815; stroke-miterlimit: 20; stroke-width: 2px;" x1="38.24" y1="8.18" y2="8.18"/>
-        <polygon style="fill: #231815;" points="31.61 0 30.25 1.46 37.47 8.18 30.25 14.89 31.61 16.36 40.41 8.18 31.61 0"/>
-      </svg>
-    </div> -->
+
+    <section class="about__skills">
+      <h3 class="about__skills-title">Skills</h3>
+      
+      <div class="skills-container">
+        <div class="skill-category">
+          <h4>言語</h4>
+          <div class="skill-items">
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">HTML</span>
+                <span class="skill-percentage">95%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="95"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">SCSS</span>
+                <span class="skill-percentage">95%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="95"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">JavaScript</span>
+                <span class="skill-percentage">90%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="90"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">PHP</span>
+                <span class="skill-percentage">85%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="85"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">Python</span>
+                <span class="skill-percentage">60%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="60"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <h4>フレームワーク & ライブラリ</h4>
+          <div class="skill-items">
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">React</span>
+                <span class="skill-percentage">80%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="80"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">Vue.js</span>
+                <span class="skill-percentage">75%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="75"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">Laravel</span>
+                <span class="skill-percentage">80%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="80"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">Node.js</span>
+                <span class="skill-percentage">75%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="75"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <h4>その他</h4>
+          <div class="skill-items">
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">Git</span>
+                <span class="skill-percentage">85%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="85"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">MySQL</span>
+                <span class="skill-percentage">80%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="80"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-info">
+                <span class="skill-name">CMS</span>
+                <span class="skill-percentage">85%</span>
+              </div>
+              <div class="skill-bar">
+                <div class="skill-progress" data-width="85"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </div>
 
@@ -106,6 +232,56 @@
       font-size: 1.6rem;
       line-height: 2;
     }
+
+    &__skills {
+      margin-top: vw-pc(100);
+
+      &-title {
+        font-size: vw-pc(40);
+        margin-bottom: vw-pc(50);
+      }
+    }
+  }
+
+  .skills-container {
+    display: grid;
+    gap: vw-pc(50);
+  }
+
+  .skill-category {
+    h4 {
+      font-size: vw-pc(24);
+      margin-bottom: vw-pc(30);
+    }
+  }
+
+  .skill-items {
+    display: grid;
+    gap: vw-pc(20);
+  }
+
+  .skill-item {
+    .skill-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: vw-pc(10);
+      font-size: vw-pc(16);
+    }
+
+    .skill-bar {
+      height: vw-pc(8);
+      background: rgba(#000, 0.1);
+      border-radius: vw-pc(4);
+      overflow: hidden;
+    }
+
+    .skill-progress {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(45deg, #85FFBD 0%, #FFFB7D 100%);
+      transform-origin: left;
+      border-radius: vw-pc(4);
+    }
   }
 
   .about-open {
@@ -168,6 +344,30 @@
 	} from "gsap/ScrollTrigger";
   import gsap from "../scripts/gsap";
 
+  function initSkillsAnimation() {
+    const skills = document.querySelectorAll('.skill-progress');
+  
+    ScrollTrigger.create({
+      trigger: '.about__skills',
+      start: 'top 70%',
+      onEnter: () => {
+        skills.forEach(skill => {
+          const width = skill.dataset.width;
+          gsap.to(skill, {
+            width: `${width}%`,
+            duration: 1.5,
+            ease: 'power4.out',
+            stagger: {
+              amount: 0.3
+            }
+          }) 
+        })
+      }
+    })
+
+  }
+
+
   window.addEventListener('load', () => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -201,5 +401,6 @@
     }
 
     createTrigger('about', 'about-path');
+    initSkillsAnimation();
   });
 </script>

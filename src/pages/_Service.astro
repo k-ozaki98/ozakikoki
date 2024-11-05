@@ -17,28 +17,28 @@
     <div class="service__content">
       <div class="service__circles">
         <div class="circle" data-index="0">
-          <span>Web<br>Design</span>
+          <span>ホームページ制作</span>
         </div>
         <div class="circle" data-index="1">
-          <span>Front<br>End</span>
+          <span>レスポンシブデザイン</span>
         </div>
         <div class="circle" data-index="2">
-          <span>Web<br>Service</span>
+          <span>CMS構築 / 導入</span>
         </div>
       </div>
       
       <div class="service__descriptions">
         <div class="description" data-index="0">
-          <h3>Web Design</h3>
-          <p>ユーザビリティを考慮した、モダンで使いやすいデザインを提供します。</p>
+          <h3>あなたのお店や会社の魅力を伝える、<br>見やすいホームページをお作りします。</h3>
+          <p>特別な知識がなくても安心して管理できるよう、使いやすさを重視しています。</p>
         </div>
         <div class="description" data-index="1">
-          <h3>Front End Development</h3>
-          <p>最新の技術を活用した、高速で信頼性の高いフロントエンド開発を行います。</p>
+          <h3>レスポンシブデザイン</h3>
+          <p>スマホでもパソコンでも、どこでも見やすいデザインに対応。</p>
         </div>
         <div class="description" data-index="2">
-          <h3>Web Service</h3>
-          <p>お客様のニーズに合わせた、カスタマイズされたWebサービスを開発します。</p>
+          <h3>自分で簡単に更新できる<br>ホームページを提供します。</h3>
+          <p>WordPressなどの仕組みを導入し、更新の手間を減らして、いつでも最新情報を発信できます。</p>
         </div>
       </div>
     </div>
@@ -119,7 +119,7 @@
       width: vw-pc(350); 
       margin: 0 auto;
       transform-origin: center center;
-      left: 20%;    
+      left: 0;    
       top: vw-pc(200); 
     }
 
@@ -375,7 +375,6 @@
             end: "+=200%",
             pin: true,
             scrub: 0.5,
-            markers: true,
             onEnter: () => {
                 gsap.to('.service__content', {
                     opacity: 1,

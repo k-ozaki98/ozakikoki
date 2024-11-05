@@ -13,25 +13,27 @@ import Layout from "../../layouts/Layout.astro";
     <div class="contact-container">
       <h1 class="title">CONTACT</h1>
       <form
+        id="contactForm"
         action="https://portfolio-688145.form.newt.so/v1/eHDsTsNsc"
         method="post"
         class="contact-form"
       >
         <div class="form-group">
-          <input type="text" name="name" id="name" required />
-          <label for="name" class="floating-label">NAMA</label>
-		  <span class="error-message" id="nameError"></span>
+          <input type="text" name="name" id="name" required placeholder="" />
+          <label for="name" class="floating-label">NAME</label>
+          <span class="error-message" id="nameError"></span>
+            </div>
+            <div class="form-group">
+              <input type="email" name="email" id="email" required placeholder="" />
+              <label for="email" class="floating-label">E-MAIL</label>
+          <span class="error-message" id="emailError"></span>
+            </div>
+            <div class="form-group">
+              <textarea id="message" name="message" rows="4" required placeholder=""></textarea>
+              <label for="message" class="floating-label">CONTENT</label>
+          <div class="error-message" id="messageError"></div>
         </div>
-        <div class="form-group">
-          <input type="email" name="email" id="email" required />
-          <label for="email" class="floating-label">E-MAIL</label>
-		  <span class="error-message" id="emailError"></span>
-        </div>
-        <div class="form-group">
-          <textarea id="message" name="message" rows="4" required></textarea>
-          <label for="message" class="floating-label">CONTENT</label>
-		  <div class="error-message" id="emailError"></div>
-        </div>
+        <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
         <button type="submit" class="submit-btn">SEND</button>
       </form>
       <div class="btn-wrap">
@@ -148,93 +150,115 @@ import Layout from "../../layouts/Layout.astro";
       box-shadow: 0 3px 6px rgba(106, 90, 205, 0.3);
     }
   }
-
-  @keyframes float {
-    0% {
-      transform: translatey(0px);
-    }
-    50% {
-      transform: translatey(-10px);
-    }
-    100% {
-      transform: translatey(0px);
-    }
-  }
-
-  .contact-container {
-    animation: float 6s ease-in-out infinite;
-  }
 </style>
+
+<script
+  is:inline
+  src="https://www.google.com/recaptcha/api.js?render=6Lf8oXUqAAAAADoVJZdvTAjewaF0t_eHygvM6I53&hl=ja"
+></script>
 
 <script>
 	// バリデーションの処理
 	document.addEventListener('DOMContentLoaded', (event) => {
-		const form = document.getElementById('contactForm');
-		const nameInput = document.getElementById('name');
-		const emailInput = document.getElementById('email');
-		const messageInput = document.getElementById('message');
-		const submitButton = form.querySelector('button[type="submit"]');
+    const form = document.getElementById('contactForm');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const messageInput = document.getElementById('message');
+    const submitButton = form.querySelector('button[type="submit"]');
 
-		const nameError = document.getElementById('nameError');
-		const emailError = document.getElementById('emailError');
-		const messageError = document.getElementById('messageError');
+    const nameError = document.getElementById('nameError');
+    const emailError = document.getElementById('emailError');
+    const messageError = document.getElementById('messageError');
 
-		function validateName() {
-			if (nameInput.ariaValueMax.trim() === '') {
-				showError(nameInput, nameError, '氏名を入力してください');
-				return false;
-			}
-			hideError(nameInput, nameError);
-			return true;
-		}
+    // バリデーション関数
+    function validateName() {
+      if (nameInput.value.trim() === '') {  // ariaValueMaxをvalueに修正
+        showError(nameInput, nameError, '氏名を入力してください');
+        return false;
+      }
+      hideError(nameInput, nameError);
+      return true;
+    }
 
-		function validateEmail() {
-			const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-			if (!emailRegex.test(emailInput.value)) {
-				showError(emailInput, emailError, '有効なメールアドレスを入力してください');
-				return false;
-			}
-			hideError(emailInput, emailError);
-			return true;
-		}
+    function validateEmail() {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(emailInput.value)) {
+        showError(emailInput, emailError, '有効なメールアドレスを入力してください');
+        return false;
+      }
+      hideError(emailInput, emailError);
+      return true;
+    }
 
-		function validateMessage () {
-			if (messageInput.ariaValueMax.trim() === '') {
-				showError(messageInput, messageError, 'メッセージを入力してください');
-				return false;
-			}
-			hideError(messageInput, messageError);
-			return true;
-		}
+    function validateMessage() {
+      if (messageInput.value.trim() === '') {  // ariaValueMaxをvalueに修正
+        showError(messageInput, messageError, 'メッセージを入力してください');
+        return false;
+      }
+      hideError(messageInput, messageError);
+      return true;
+    }
 
-		function showError(input, errorElement, message) {
-			input.classList.add('error');
-			errorElement.textContent = message;
-			errorElement.classList.add('visible');
-		}
+    function showError(input, errorElement, message) {
+      input.classList.add('error');
+      errorElement.textContent = message;
+      errorElement.classList.add('visible');
+    }
 
-		function hideError(input, errorElement) {
-			input.classList.remove('error');
-			errorElement.textContent = '';
-			errorElement.classList.remove('visible');
-		}
+    function hideError(input, errorElement) {
+      input.classList.remove('error');
+      errorElement.textContent = '';
+      errorElement.classList.remove('visible');
+    }
 
-		function validateForm() {
-			const isNameValid = validateName();
-			const isEmailValid = validateEmail();
-			const isMessageValid = validateMessage();
-			submitButton.disabled = !(isNameValid && isEmailValid && isMessageValid);
-		}
+    function validateForm() {
+      const isNameValid = validateName();
+      const isEmailValid = validateEmail();
+      const isMessageValid = validateMessage();
+      submitButton.disabled = !(isNameValid && isEmailValid && isMessageValid);
+    }
 
-		nameInput.addEventListener('input', validateForm);
-		emailInput.addEventListener('input', validateForm);
-		messageInput.addEventListener('input', validateForm);
+    // 入力フィールドのイベントリスナー
+    nameInput.addEventListener('input', validateForm);
+    emailInput.addEventListener('input', validateForm);
+    messageInput.addEventListener('input', validateForm);
 
-		form.addEventListener('submit', (e) => {
-			e.preventDefault();
-			if (validateName() && validateEmail() && validateMessage()) {
-				form.submit();
-			}
-		})
-	})
+    // フォーム送信時の処理
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      if (validateName() && validateEmail() && validateMessage()) {
+        try {
+          // reCAPTCHAトークンの取得
+          const token = await grecaptcha.execute('6Lf8oXUqAAAAADoVJZdvTAjewaF0t_eHygvM6I53', {action: 'submit'});
+          
+          // トークンを隠しフィールドにセット
+          document.getElementById('g-recaptcha-response').value = token;
+
+          // カスタム送信処理
+          const formData = new FormData(form);
+          const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'Accept': 'application/json'
+            }
+          });
+
+          if (response.ok) {
+            alert('お問い合わせを送信しました。');
+            form.reset();
+          } else {
+            throw new Error('送信に失敗しました');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('送信に失敗しました。もう一度お試しください。');
+        }
+      }
+    });
+
+    // 初期バリデーション
+    validateForm();
+  });
 </script>
