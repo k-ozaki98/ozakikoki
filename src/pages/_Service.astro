@@ -1,4 +1,4 @@
-<div id="service" class="service">
+<div id="service" class="service sec-inner">
   <div class="l-inner service__inner">
     <div class="service__text">
       <span class="layer-open service-trigger">
@@ -13,14 +13,34 @@
         </svg>
       </span>
     </div>
-    <p class="service__heading">
-      Delivering excellence through design and code.
-    </p>
-    <div class="service-open service-trigger">
-      <svg id="_レイヤー_1" data-name="レイヤー 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.41 16.36">
-        <line style="fill: none; stroke: #231815; stroke-miterlimit: 20; stroke-width: 2px;" x1="38.24" y1="8.18" y2="8.18"/>
-        <polygon style="fill: #231815;" points="31.61 0 30.25 1.46 37.47 8.18 30.25 14.89 31.61 16.36 40.41 8.18 31.61 0"/>
-      </svg>
+
+    <div class="service__content">
+      <div class="service__circles">
+        <div class="circle" data-index="0">
+          <span>Web<br>Design</span>
+        </div>
+        <div class="circle" data-index="1">
+          <span>Front<br>End</span>
+        </div>
+        <div class="circle" data-index="2">
+          <span>Web<br>Service</span>
+        </div>
+      </div>
+      
+      <div class="service__descriptions">
+        <div class="description" data-index="0">
+          <h3>Web Design</h3>
+          <p>ユーザビリティを考慮した、モダンで使いやすいデザインを提供します。</p>
+        </div>
+        <div class="description" data-index="1">
+          <h3>Front End Development</h3>
+          <p>最新の技術を活用した、高速で信頼性の高いフロントエンド開発を行います。</p>
+        </div>
+        <div class="description" data-index="2">
+          <h3>Web Service</h3>
+          <p>お客様のニーズに合わせた、カスタマイズされたWebサービスを開発します。</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -31,11 +51,9 @@
 
   .service {
     width: 100%;
-    height: 100vh;
     position: relative;
 
     &__inner {
-      height: 100vh;
       position: relative;
       
     }
@@ -44,6 +62,8 @@
       width: 100%;
       cursor: pointer;
       margin-bottom: vw-pc(50);
+      position: relative;
+      z-index: 3;
 
       .layer-open {
         display: inline-block;
@@ -51,7 +71,7 @@
       }
 
       svg {
-        height: vw-pc(300);
+        height: vw-pc(200);
         width: auto;
 
         @include max-screen($bp-sp) {
@@ -75,6 +95,97 @@
       @include max-screen($bp-sp) {
         font-size: 1.4rem;
         margin-bottom: 3rem;
+      }
+    }
+
+    &__content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: vw-pc(50);
+      min-height: 100vh;
+      opacity: 0;  // 初期状態は非表示
+      visibility: hidden;
+      transition: opacity 0.5s;
+
+      &.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    &__circles {
+      position: relative;
+      height: vw-pc(350); // 高さを調整
+      width: vw-pc(350); // 幅を指定
+      margin: 0 auto;
+      transform-origin: center center;
+      left: vw-pc(200);    // 右方向に移動
+      top: vw-pc(200); 
+    }
+
+    .circle {
+        position: absolute;
+        width: vw-pc(180);
+        height: vw-pc(180);
+        border-radius: 50%;
+        background: #27d3ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        text-align: center;
+        font-weight: bold;
+        opacity: 0.7;
+        transition: opacity 0.3s;
+        transform-origin: center center;
+        left: 50%;
+        top: 50%;
+        margin: vw-pc(-90) 0 0 vw-pc(-90);
+        will-change: transform; // パフォーマンス最適化
+
+        &.active {
+            opacity: 1;
+            // scaleを個別のGSAPアニメーションで制御するため、ここでは除外
+            box-shadow: 0 0 30px rgba(39, 211, 255, 0.4);
+            z-index: 2;
+            transform: scale(1.8);
+            
+        }
+
+        &:not(.active) {
+            opacity: 0.5;
+            filter: grayscale(30%);
+        }
+    }
+
+    &__descriptions {
+      padding: vw-pc(50) 0;
+      position: relative;
+
+      .description {
+        position: absolute;
+        top: vw-pc(50);  // 追加
+        left: 0;         // 追加
+        width: 100%;  
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s;
+
+        &.active {
+          opacity: 1;
+          transform: translateY(0);
+          transition-delay: 0.2s; 
+        }
+
+        h3 {
+          font-size: vw-pc(30);
+          margin-bottom: vw-pc(20);
+        }
+
+        p {
+          font-size: vw-pc(16);
+          line-height: 1.8;
+        }
       }
     }
   }
@@ -139,74 +250,132 @@
 	} from "gsap/ScrollTrigger";
   import gsap from "../scripts/gsap";
 
+  function vwToPx(vw) {
+    return (vw * window.innerWidth) / 100;
+  }
+
   window.addEventListener('load', () => {
     gsap.registerPlugin(ScrollTrigger);
+    
+    const radius = vwToPx(15);
+    let centerX = window.innerWidth / 3;
+    const centerY = vwToPx(20); 
+    const circles = document.querySelectorAll('.circle');
+    const descriptions = document.querySelectorAll('.description');
+    let currentIndex = 0;
+    let previousRotation = 0;
 
-    function animateSVG(className) {
-      const paths = document.querySelectorAll(`.${className}`);
+    // サークルの初期配置
+    function positionCircles() {
+        const baseRadius = vwToPx(25);
+        const startAngle = (-130 * Math.PI / 180);
 
-      paths.forEach((path, index) => {
-        gsap.fromTo(path,
-          { opacity: 0, y: 50, x: 20 },
-          {
-            opacity: 1,
-            y: 0,
-            x: 0,
-            duration: 0.8,
-            delay: index * 0.1,
-            scrub: true,
-            ease: 'power2.out'
-          }      
-        );
-      });
+        circles.forEach((circle, i) => {
+            const angle = startAngle + (i * (2 * Math.PI / 3));
+            // 初期位置の設定
+            gsap.set(circle, {
+                x: radius * Math.cos(angle),
+                y: radius * Math.sin(angle),
+                rotation: 0 // 最初から上向きに固定
+            });
+        });
+
+        gsap.set(circles[0], { scale: 1.8 });
     }
 
-    function createTrigger(triggerClass, pathClass) {
-      ScrollTrigger.create({
-        trigger: `#${triggerClass}`,
-        start: "top 70%",
-        end: "bottom top",
+
+    // SVGのパスアニメーション用のトリガーを別に作成
+    ScrollTrigger.create({
+        trigger: ".service__text",
+        start: "top 70%", // 画面の70%位置でトリガー
         once: true,
-        onEnter: () => animateSVG(pathClass),
-      });
-    }
-
-    createTrigger('service', 'service-path');
-
-    // ホバーエフェクトの追加
-    const serviceLink = document.querySelector('.service__text .layer-open');
-    const arrow = document.querySelector('.service-open');
-    const servicePaths = document.querySelectorAll('.service-path');
-    const serviceLayer = document.querySelector('#serviceLayer');
-    const serviceTriggers = document.querySelectorAll('.service-trigger');
-
-    serviceTriggers.forEach((trigger) => {
-      trigger.addEventListener('click', (e) => {
-        e.preventDefault();
-        serviceLayer.classList.add('active');
-        document.body.classList.add('no-scroll');
-      });
+        onEnter: () => {
+            // 各path要素のアニメーション
+            const paths = document.querySelectorAll('.service-path');
+            
+            paths.forEach((path, index) => {
+                gsap.fromTo(path,
+                    { opacity: 0, y: 50, x: 20 }, // 開始時の位置と透明度
+                    {
+                        opacity: 1,
+                        y: 0,
+                        x: 0,
+                        duration: 0.5,
+                        delay: index * 0.1, // 少しずつ遅れて開始
+                        ease: "power2.out"
+                    }
+                );
+            });
+        }
     });
 
-    function applyHoverEffect(element, colorOnHover, colorOnLeave) {
-      element.addEventListener('mouseenter', () => {
-        servicePaths.forEach((path, index) => {
-          path.style.transition = `fill 0.5s ease ${index * 0.05}s`;
-          path.style.fill = colorOnHover;
-        });
-        arrow.classList.add('hover');
-      });
+    // ピン留めとスクロールアニメーション
+    ScrollTrigger.create({
+        trigger: "#service",
+        start: "top top",
+        end: "+=200%",
+        pin: true,
+        scrub: 0.5,
+        markers: true,
+        onEnter: () => {
+            // コンテンツ表示
+            gsap.to('.service__content', {
+                opacity: 1,
+                visibility: 'visible',
+                duration: 0.5,
+                delay: 0.5
+            });
+        },
+        onUpdate: (self) => {
+            const newIndex = Math.floor(self.progress * 3);
+            if (newIndex !== currentIndex && newIndex < 3) {
+                const rotationAmount = -120 * newIndex;
 
-      element.addEventListener('mouseleave', () => {
-        servicePaths.forEach((path, index) => {
-          path.style.transition = `fill 0.5s ease ${index * 0.05}s`;
-          path.style.fill = colorOnLeave;
-        });
-        arrow.classList.remove('hover');
-      });
-    }
+                // 親要素の回転
+                gsap.to('.service__circles', {
+                    rotation: rotationAmount,
+                    duration: 1.6,
+                    ease: "power2.out",
+                    keyframes: [
+                        { scale: 1 },    // 初期スケール
+                        { scale: 2.4, duration: 0.9 }, // 中間スケール（0.25秒で1.3に）
+                        { scale: 1, duration: 0.7 }   // 最終スケール（0.25秒で1に戻す）
+                    ]
+                });
 
-    applyHoverEffect(serviceLink, '#27d3ff', '#000');
-    applyHoverEffect(arrow, '#27d3ff', '#000');
-  });
+                // 各circleが常に上を向くように逆回転
+                circles.forEach((circle, i) => {
+                    const reverseRotation = -rotationAmount; // 親の回転と逆方向に
+                    gsap.to(circle, {
+                        rotation: reverseRotation,
+                        scale: i === newIndex ? 1.8 : 1,
+                        duration: 1.6,
+                        ease: "power2.out"
+                    });
+                });
+
+                descriptions.forEach((desc, i) => {
+                    desc.classList.toggle('active', i === newIndex);
+                });
+                circles.forEach((circle, i) => {
+                    circle.classList.toggle('active', i === newIndex);
+                });
+
+                currentIndex = newIndex;
+            }
+        }
+
+    });
+
+    // 初期配置
+    positionCircles();
+    circles[0].classList.add('active');
+    descriptions[0].classList.add('active');
+
+    // リサイズ対応
+    window.addEventListener('resize', () => {
+        centerX = window.innerWidth / 3;
+        positionCircles();
+    });
+});
 </script>

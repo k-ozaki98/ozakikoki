@@ -10,10 +10,8 @@ interface Props {
 }
 
 const columnCardStyle = css`
-  // width: calc((100% - ${vwPc(50)}) / 2);
   width: 100%;
-  // border: 2px solid #000;
-  background-color: #transparent;
+  background-color: transparent;
   transition: .25s;
   height: 100%;
   font-family: "Barlow", sans-serif;
@@ -22,20 +20,20 @@ const columnCardStyle = css`
   @media screen and (max-width: ${bpSp}) {
   }
 
-    &:hover {
+  &:hover {
     .thumb img {
       transform: scale(1.05); 
     }
-      .st0 {
-        transition: 0.3s;
-          fill: #576ef0;
-        }
+    .st0 {
+      transition: 0.3s;
+      fill: #576ef0;
+    }
   }
 
   .thumb {
     overflow: hidden;
     width: 100%;
-    height: ${vwPc(350)};
+    height: ${vwPc(250)};
     position: relative;
 
     @media screen and (max-width: ${bpSp}) {
@@ -89,13 +87,13 @@ const columnCardStyle = css`
     top: 0;
     right: 0;
     line-height: 1.8;
-    font-size: ${vwPc(16)};
+    font-size: ${vwPc(14)};
     background: linear-gradient(145deg, #00B3FF 0%, #1FD1D1 100%);
     color: #fff;
     padding: 0 ${vwPc(20)};
 
-    @media screen and (max-width:${bpSp}) {
-        line-height: 1.4;
+    @media screen and (max-width: ${bpSp}) {
+      line-height: 1.4;
       font-size: 1.2rem;
       padding: 0 1rem;
     }
@@ -107,15 +105,16 @@ const columnCardStyle = css`
     padding-bottom: 0;
     height: 100%;
     line-height: 1.5;
-
-    @media screen and (max-width:${bpSp}) {
-    }
-  }
-
-  .body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media screen and (max-width: ${bpSp}) {
+      padding: 1rem 1.5rem;
+      padding-left: 0;
+      padding-bottom: 0;
+    }
+
     .wrap {
       width: 80%;
     }
@@ -126,26 +125,38 @@ const columnCardStyle = css`
       align-items: center;
       background: #fff;
       border-radius: 50%;
-      width: ${vwPc(70)};
-      height: ${vwPc(70)};
+      width: ${vwPc(50)};
+      height: ${vwPc(50)};
+
+      @media screen and (max-width: ${bpSp}) {
+        width: 40px;
+        height: 40px;
+      }
 
       svg {
-        width: ${vwPc(30)};
-        height: ${vwPc(30)};
-      }
-        .st0 {
-        transition: 0.3s;
+        width: ${vwPc(20)};
+        height: ${vwPc(20)};
+
+        @media screen and (max-width: ${bpSp}) {
+          width: 15px;
+          height: 15px;
         }
+      }
+
+      .st0 {
+        transition: 0.3s;
+      }
     }
   }
-  
 
   .ttl {
-    font-size: ${vwPc(28)};
-    margin-bottom: ${vwPc(20)};
+    font-size: ${vwPc(20)};
+    margin-bottom: ${vwPc(15)};
+    line-height: 1.4;
 
-    @media screen and (max-width:${bpSp}) {
+    @media screen and (max-width: ${bpSp}) {
       font-size: 1.2rem;
+      margin-bottom: 0.8rem;
     }
   }
 
@@ -153,21 +164,25 @@ const columnCardStyle = css`
     color: #3BAA8A;
     border: 1px solid #3BAA8A;
     border-radius: 50px;
-    font-size: ${vwPc(18)};
+    font-size: ${vwPc(16)};
     display: inline-block;
     padding: 0 ${vwPc(20)};
-    
-  }
 
-  .date {
-    font-size: ${vwPc(20)};
-    font-weight: bold;
-    line-height: 1.5;
-    @media screen and (max-width:${bpSp}) {
+    @media screen and (max-width: ${bpSp}) {
       font-size: 1rem;
+      padding: 0 0.8rem;
     }
   }
 
+  .date {
+    font-size: ${vwPc(16)};
+    font-weight: bold;
+    line-height: 1.5;
+
+    @media screen and (max-width: ${bpSp}) {
+      font-size: 1rem;
+    }
+  }
 `;
 
 const ColumnCard: React.FC<Props> = ({ data }) => {
@@ -220,7 +235,7 @@ const ColumnCard: React.FC<Props> = ({ data }) => {
           </div>
         </div>
         <div className="top">
-          <figure className="thumb">
+          <figure className="thumb clip-path">
             <img
               src={data.coverImage?.src? `${data.coverImage.src}?width=782&height=450&fit=crop`: defaultThumbnailSrc }
               alt={data.coverImage?.title? data.coverImage.title: ''} 

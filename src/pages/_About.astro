@@ -1,6 +1,6 @@
-<div id="about" class="about">
+<div id="about" class="about sec-inner">
   <div class="l-inner about__inner">
-    <div class="about__text">
+    <div class="about__heading">
       <span class="layer-open about-trigger">
         <svg id="_レイヤー_1" data-name="レイヤー 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170.74 57.76">
           <path class="about-path" d="M28.94,0l8.46,56.92h-15.13l-.79-10.23h-5.29l-.89,10.23H0L7.55,0H28.94Zm-7.84,36.6c-.75-6.45-1.5-14.42-2.25-23.91-1.51,10.9-2.46,18.87-2.84,23.91h5.09Z"/>
@@ -11,16 +11,30 @@
         </svg>
       </span>
     </div>
-    <p class="about__heading">
-      I'm KOKI.<br>
-      I am conducting website production in Osaka.
-    </p>
-    <div class="about-open about-trigger">
+
+    <section class="about__wrap">
+      <div class="about__img clip-path">
+        <img src="../assets/images/top/profile.jpg" alt="プロフィール写真">
+      </div>
+      <div class="about__text-wrap fade-in">
+        <h3 class="about__name">Koki Ozaki</h3>
+        <p class="about__name-ja">尾崎 幸喜</p>
+        <p class="about__text">
+          はじめまして。フロントエンドエンジニアの尾崎です。
+        </p>
+        <p class="about__text">
+          京都府京丹後市で生まれ。<br>
+          2022年に未経験からWeb業界に飛び込み、<br>
+          現在は大阪市でフロントエンドエンジニアとして活動しています。
+        </p>
+      </div>
+    </section>
+    <!-- <div class="about-open about-trigger">
       <svg id="_レイヤー_1" data-name="レイヤー 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.41 16.36">
         <line style="fill: none; stroke: #231815; stroke-miterlimit: 20; stroke-width: 2px;" x1="38.24" y1="8.18" y2="8.18"/>
         <polygon style="fill: #231815;" points="31.61 0 30.25 1.46 37.47 8.18 30.25 14.89 31.61 16.36 40.41 8.18 31.61 0"/>
       </svg>
-    </div>
+    </div> -->
   </div>
 </div>
 
@@ -30,19 +44,17 @@
 
   .about {
     width: 100%;
-    height: 100vh;
     position: relative;
 
     &__inner {
-      height: 100vh;
       position: relative;
       
     }
 
-    &__text {
+    &__heading {
       width: 100%;
       cursor: pointer;
-      margin-bottom: vw-pc(50);
+      margin-bottom: vw-pc(100);
 
       .layer-open {
         display: inline-block;
@@ -50,7 +62,7 @@
       }
 
       svg {
-        height: vw-pc(300);
+        height: vw-pc(200);
         width: auto;
 
         @include max-screen($bp-sp) {
@@ -65,16 +77,34 @@
       }
     }
 
-    &__heading {
-      font-family: "Barlow", sans-serif;
-      font-weight: 700;
-      font-size: vw-pc(40);
-      margin-bottom: vw-pc(80);
+    &__wrap {
+      display: flex;
+      justify-content: space-between;
+      gap: 5rem;
+    }
 
-      @include max-screen($bp-sp) {
-        font-size: 1.4rem;
-        margin-bottom: 3rem;
-      }
+    &__img {
+      width: 40%;
+    }
+
+    &__text-wrap {
+      width: 55%;
+    }
+
+    &__name {
+      font-size: 2.2rem;
+      margin-bottom: 3rem;
+
+    }
+
+    &__name-ja {
+      font-size: 2rem;
+      margin-bottom: 5rem;
+    }
+
+    &__text {
+      font-size: 1.6rem;
+      line-height: 2;
     }
   }
 
@@ -163,7 +193,7 @@
     function createTrigger(triggerClass, pathClass) {
       ScrollTrigger.create({
         trigger: `.${triggerClass}`,
-        start: "top 70%",
+        start: "top 65%",
         end: "bottom top",
         once: true,
         onEnter: () => animateSVG(pathClass),
@@ -171,41 +201,5 @@
     }
 
     createTrigger('about', 'about-path');
-
-    // ホバーエフェクトの追加
-    const aboutLink = document.querySelector('.about__text .layer-open');
-    const arrow = document.querySelector('.about-open');
-    const aboutPaths = document.querySelectorAll('.about-path');
-    const aboutLayer = document.querySelector('#aboutLayer');
-    const aboutTriggers = document.querySelectorAll('.about-trigger');
-
-    aboutTriggers.forEach((trigger) => {
-      trigger.addEventListener('click', (e) => {
-        e.preventDefault();
-        aboutLayer.classList.add('active');
-        document.body.classList.add('no-scroll');
-      });
-    });
-
-    function applyHoverEffect(element, colorOnHover, colorOnLeave) {
-      element.addEventListener('mouseenter', () => {
-        aboutPaths.forEach((path, index) => {
-          path.style.transition = `fill 0.5s ease ${index * 0.05}s`;
-          path.style.fill = colorOnHover;
-        });
-        arrow.classList.add('hover');
-      });
-
-      element.addEventListener('mouseleave', () => {
-        aboutPaths.forEach((path, index) => {
-          path.style.transition = `fill 0.5s ease ${index * 0.05}s`;
-          path.style.fill = colorOnLeave;
-        });
-        arrow.classList.remove('hover');
-      });
-    }
-
-    applyHoverEffect(aboutLink, '#c13332', '#000');
-    applyHoverEffect(arrow, '#c13332', '#000');
   });
 </script>
