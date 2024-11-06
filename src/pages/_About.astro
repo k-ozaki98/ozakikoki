@@ -171,6 +171,7 @@
   .about {
     width: 100%;
     position: relative;
+    padding-bottom: 0;
 
     &__inner {
       position: relative;
@@ -349,7 +350,7 @@
   
     ScrollTrigger.create({
       trigger: '.about__skills',
-      start: 'top 70%',
+      start: 'top 65%',
       onEnter: () => {
         skills.forEach(skill => {
           const width = skill.dataset.width;
