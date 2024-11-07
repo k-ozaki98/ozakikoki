@@ -169,16 +169,16 @@
     animationInitialized = true;
   }
 
-  function resetAnimation() {
-    gsap.set([".line", ".top-half", ".bottom-half", ".mv", "#animation-container", ".cls"], { clearProps: "all" });
-    ScrollTrigger.getAll().forEach(st => st.kill());
-    animationInitialized = false;
-  }
+  // function resetAnimation() {
+  //   gsap.set([".line", ".top-half", ".bottom-half", ".mv", "#animation-container", ".cls"], { clearProps: "all" });
+  //   ScrollTrigger.getAll().forEach(st => st.kill());
+  //   animationInitialized = false;
+  // }
 
   function handlePageShow(event) {
     if (event.persisted) {
       // ページがブラウザのキャッシュから復元された場合（ブラウザバック等）
-      resetAnimation();
+      // resetAnimation();
       initAnimation();
     }
   }
@@ -197,7 +197,7 @@
 
   // Astro の View Transitions を使用している場合、以下のイベントリスナーを追加
   document.addEventListener('astro:after-swap', () => {
-    resetAnimation();
+    // resetAnimation();
     initAnimation();
   });
 </script>

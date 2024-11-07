@@ -1,7 +1,20 @@
+@use "sass:math";
+
 $inner-width: 1000px;
 $bp-tab: 1000px;
 $bp-sp: 767px;
 $main-color: #000;
+
+/* --------------------------
+	フォントの設定
+-------------------------- */
+$font-size-px: 16; // 基本フォントサイズ
+$font-size-rem: math.div($font-size-px, 10); // 基本フォントサイズ(rem)
+$font-family: "Noto Serif JP", "ヒラギノ角ゴ ProN",
+			"Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, "ＭＳ Ｐゴシック",
+			"MS PGothic", sans-serif;
+$font-color: #505A5F; // 基本フォントカラー
+$line-height: 1.8; // 行間の設定
 
 
 /* --------------------------

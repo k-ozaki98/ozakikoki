@@ -12,21 +12,44 @@
       </span>
     </div>
 
+    <div class="fade-in about__text-wrap">
+      <p class="about__text">
+        はじめまして。<br>
+        大阪にてWeb制作をしております。
+      </p>
+      <p class="about__text">
+        京都府京丹後市で生まれ。<br>
+        2022年に未経験からWeb業界に飛び込み、<br>
+        現在は大阪市でフロントエンドエンジニアとして活動しています。
+      </p>
+
+    </div>
     <section class="about__wrap">
       <div class="about__img clip-path">
         <img src="../assets/images/top/profile.jpg" alt="プロフィール写真">
       </div>
-      <div class="about__text-wrap fade-in">
-        <h3 class="about__name">Koki Ozaki</h3>
-        <p class="about__name-ja">尾崎 幸喜</p>
-        <p class="about__text">
-          はじめまして。フロントエンドエンジニアの尾崎です。
-        </p>
-        <p class="about__text">
-          京都府京丹後市で生まれ。<br>
-          2022年に未経験からWeb業界に飛び込み、<br>
-          現在は大阪市でフロントエンドエンジニアとして活動しています。
-        </p>
+      <div class="about__list-wrap">
+        <h3 class="about__name"><span class="clip-path-layer">Koki Ozaki</span></h3>
+        <p class="about__name-ja"><span class="clip-path-layer">尾崎 幸喜</span></p>
+        <dl class="about__list">
+          <dt>名前：</dt>
+          <dd>尾崎 幸喜</dd>
+        </dl>
+        <dl class="about__list">
+          <dt>所在地：</dt>
+          <dd>大阪市内</dd>
+        </dl>
+        <dl class="about__list">
+          <dt>お問い合わせ：</dt>
+          <dd>koki.ozaki98@gmail.com</dd>
+        </dl>
+        <dl class="about__list">
+          <dt>事業内容：</dt>
+          <dd>
+            web制作におけるディレクション、HTML・CSSコーディング、レスポンシブデザイン、CMS導入等
+          </dd>
+        </dl>
+        
       </div>
     </section>
 
@@ -207,31 +230,60 @@
     &__wrap {
       display: flex;
       justify-content: space-between;
+      align-items: start;
       gap: 5rem;
     }
 
     &__img {
-      width: 40%;
+      width: 30%;
+      aspect-ratio: 1;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
-    &__text-wrap {
-      width: 55%;
+    &__list-wrap {
+      width: 65%;
     }
 
     &__name {
       font-size: 2.2rem;
-      margin-bottom: 3rem;
-
+      // margin-bottom: 1rem;
+      font-weight: normal;
     }
 
     &__name-ja {
-      font-size: 2rem;
+      font-size: 2.4rem;
+      margin-bottom: 3rem;
+    }
+
+    &__list {
+      display: flex;
+      justify-content: start;
+      margin-bottom: 0.5rem;
+
+      dt {
+        font-size: 1.6rem;
+        font-weight: bold;
+        width: 20%;
+      }
+      dd {
+        font-size: 1.6rem;
+        width: 80%;
+      }
+    }
+
+    &__text-wrap {
       margin-bottom: 5rem;
     }
 
     &__text {
       font-size: 1.6rem;
       line-height: 2;
+      margin-bottom: 2rem;
     }
 
     &__skills {
