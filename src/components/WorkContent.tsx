@@ -22,6 +22,7 @@ const styles = {
 
     .work-content__img {
       height: 100%;
+      width: 100%;
 
       @media screen and (max-width: ${bpSp}) {
         height: 100%;

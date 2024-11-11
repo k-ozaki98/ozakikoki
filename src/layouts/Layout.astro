@@ -1,6 +1,9 @@
 ---
 import Footer from './Footer.astro';
 import Header from './Header.astro';
+import ServiceLayer from '../components/ServiceLayer.astro';
+import AboutLayer from '../components/AboutLayer.astro';
+import BlogLayer from '../components/BlogLayer.astro';
 
 interface Props {
     pageId: string;
@@ -57,14 +60,14 @@ const { pageId, title, description } = Astro.props;
                 )}
 
                 {pageId == 'top' && (
-                    // <div id="animation-container">
-                    //     <div class="top-half"></div>
-                    //     <div class="bottom-half"></div>
-                    //     <div class="line"></div>
-                    // </div>
-                    <AboutLayer />
-                    <ServiceLayer />
-                    <BlogLayer />
+                    <div id="animation-container">
+                        <div class="top-half"></div>
+                        <div class="bottom-half"></div>
+                        <div class="line"></div>
+                    </div>
+                    // <AboutLayer />
+                    // <ServiceLayer />
+                    // <BlogLayer />
                 )}
      
                  <div class="content-wrapper">

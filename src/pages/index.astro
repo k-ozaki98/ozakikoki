@@ -7,6 +7,7 @@ import Mv from './_Mv.astro';
 import { newtClient } from '../lib/newt'
 import type { Article } from '../lib/newt'
 import Contact from './_Contact.astro';
+import Work from './_Work.astro';
 
 const { items: articles } = await newtClient.getContents<Article>({
   appUid: 'blog',
@@ -23,6 +24,7 @@ const { items: articles } = await newtClient.getContents<Article>({
 		<Mv />
 		<About />
 		<Service />
+    <Work />
 		<Blog />
     <Contact text="TOP" href="../" />
 	</main>
