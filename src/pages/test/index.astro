@@ -1,0 +1,64 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import { newtClient } from '../../lib/newt'
+import type { NewtWorkArticle } from '../../lib/newt'
+import BtnA from '../../components/BtnA';
+import WorkList from '../../components/WorkList';
+
+const { items }: { items: NewtWorkArticle[] } = await newtClient.getContents({
+	appUid: 'work',
+	modelUid: 'article',
+}) 
+
+interface Props {
+	items: NewtWorkArticle[];
+
+}
+---
+
+<Layout pageId="column" title="記事一覧  | Ozaki's Portfolio" description="テックブログ一覧">
+	<main>
+
+		<div class="content-bg">
+			<div class="l-section">
+				<div class="xl-inner">
+					<WorkList data={items} />
+				</div>
+          			
+					<div class="u-align-c">
+						<BtnA href='../' text="TOPに戻る" />
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</main>
+</Layout>
+
+<style lang="scss">
+	@import '../../styles/vars.scss';
+
+	.content-bg {
+		// background-image: url(/assets/images/common/content-bg.png);
+		background-size: auto;
+		background-repeat: repeat;
+
+	}
+
+	.l-section {
+		margin: 0;
+		padding-top: 8rem;
+		padding-bottom: 8rem;
+
+		@include max-screen($bp-sp) {
+			padding-top: 4rem;
+			padding-bottom: 4rem;
+		}
+	}
+
+	.u-align-c {
+		margin-top: 5rem;
+	}
+
+</style>
