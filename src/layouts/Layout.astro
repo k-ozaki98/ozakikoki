@@ -536,7 +536,6 @@ const { pageId, title, description } = Astro.props;
 <script>
 	import gsap from "../scripts/gsap";
     import { navigate } from 'astro:transitions/client';
-    import luxy from 'luxy.js';
     import Lenis from 'lenis'
     import 'lenis/dist/lenis.css'
 
@@ -680,7 +679,7 @@ const { pageId, title, description } = Astro.props;
                 ease: 'power2.out',
                 scrollTrigger: {
                     trigger: element,
-                    start: 'top 80%',
+                    start: 'top 70%',
                 }
             });
         });
@@ -691,8 +690,8 @@ const { pageId, title, description } = Astro.props;
 
         animatedElements.forEach((element) => {
             gsap.to(element, {
-                '--clip-path': 'inset(0 100% 0 0)', // CSSカスタムプロパティを使用
-                duration: 1,
+                '--clip-path': 'inset(0 0 0 100%)', // CSSカスタムプロパティを使用
+                duration: 1.3,
                 ease: 'power2.out',
                 scrollTrigger: {
                     trigger: element,

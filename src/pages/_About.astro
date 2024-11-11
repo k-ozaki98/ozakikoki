@@ -25,16 +25,15 @@
 
     </div>
     <section class="about__wrap">
-      <div class="about__img clip-path">
-        <img src="../assets/images/top/profile.jpg" alt="プロフィール写真">
+      <div class="about__bg">
+        <div class="about__img clip-path">
+          <img src="../assets/images/top/profile.jpg" alt="プロフィール写真">
+        </div>
+
       </div>
       <div class="about__list-wrap">
-        <h3 class="about__name"><span class="clip-path-layer">Koki Ozaki</span></h3>
-        <p class="about__name-ja"><span class="clip-path-layer">尾崎 幸喜</span></p>
-        <dl class="about__list">
-          <dt>名前：</dt>
-          <dd>尾崎 幸喜</dd>
-        </dl>
+        <h3 class="about__name-ja"><span class="clip-path-layer">Koki Ozaki</span></h3>
+        <p class="about__name"><span class="clip-path-layer">Frontend Engineer</span></p>
         <dl class="about__list">
           <dt>所在地：</dt>
           <dd>大阪市内</dd>
@@ -58,7 +57,7 @@
       
       <div class="skills-container">
         <div class="skill-category">
-          <h4>言語</h4>
+          <h4>プログラミング言語</h4>
           <div class="skill-items">
             <div class="skill-item">
               <div class="skill-info">
@@ -234,19 +233,32 @@
       gap: 5rem;
     }
 
+    &__bg {
+      width: 35%;
+      aspect-ratio: 15/22;
+      background: url(../assets/images/top/bg.jpg)no-repeat center center;
+      background-size: cover;
+      position: relative;
+    }
+
     &__img {
-      width: 30%;
-      aspect-ratio: 1;
+      width: 80%;
+      aspect-ratio: 15/22;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: -2rem;
 
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        box-shadow: 0 0 18px rgba(0, 0, 0, .15);
       }
     }
 
     &__list-wrap {
-      width: 65%;
+      width: 55%;
     }
 
     &__name {
@@ -259,6 +271,7 @@
     &__name-ja {
       font-size: 2.4rem;
       margin-bottom: 3rem;
+      font-weight: normal;
     }
 
     &__list {
@@ -269,11 +282,11 @@
       dt {
         font-size: 1.6rem;
         font-weight: bold;
-        width: 20%;
+        width: 25%;
       }
       dd {
         font-size: 1.6rem;
-        width: 80%;
+        width: 75%;
       }
     }
 
