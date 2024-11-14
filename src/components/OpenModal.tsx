@@ -16,14 +16,16 @@ const styles = {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-
+    visibility: hidden;
     opacity: 0;
     pointer-events: none;
-    transition: .5s;
+    transition: opacity .5s, visibility .5s;
 
     &.open {
       opacity: 1;
       pointer-events: all;
+      visibility: visible;
+
     }
   `,
   modalContent: css`
@@ -185,9 +187,12 @@ interface Props {
 const OpenModal: React.FC<Props> = ({ data, isOpen, setIsOpen }) => {
 
   useEffect(() => {
-    console.log('Modal Data:', data);
-    console.log('Modal Is Open:', isOpen);
-  }, [data, isOpen]);
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isOpen]);
 
   if(!data) return null;
 
@@ -200,7 +205,6 @@ const OpenModal: React.FC<Props> = ({ data, isOpen, setIsOpen }) => {
       css={styles.modalOverlay}
       onClick={(e) => {
         if(e.target === e.currentTarget) {
-          console.log('Modal overlay clicked');
           setIsOpen(false);
         }
       }}

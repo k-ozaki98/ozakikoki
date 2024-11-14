@@ -38,20 +38,23 @@ const styles = {
 
 // TopWorkListコンポーネントも単純化
 const TopWorkList: React.FC<Props> = ({ data }) => {
-  const [activeData, setActiveData] = useState(null);
+  const [activeData, setActiveData] = useState<NewtWorkArticle | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleWorkClick = (work: NewtWorkArticle) => {
+    setActiveData(work);
+    setIsOpen(true);
+  };
+
   
   return (
-    <div className="work-container" css={styles.workContainer}>
+    <div css={styles.workContainer}>
       {data.map((d, i) => (
-        <div className="work-content clip-path" css={styles.workContent} key={i}>
+        <div className="clip-path" css={styles.workContent} key={i}>
           <WorkContent 
             data={d} 
             index={i} 
-            onClick={() => {
-              setIsOpen(true);
-              setActiveData(d);
-            }}
+            onClick={() => handleWorkClick(d)}
           />
         </div>
       ))}

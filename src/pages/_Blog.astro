@@ -13,7 +13,7 @@ const {items: articles} = await newtClient.getContents<Article>({
 })
 ---
 
-<div id="blog" class="blog">
+<div id="blog" class="blog sec-inner">
   <div class="l-inner blog__inner">
     <div class="blog__text">
       <span class="layer-open blog-trigger">
@@ -54,7 +54,7 @@ const {items: articles} = await newtClient.getContents<Article>({
   .blog {
     width: 100%;
     position: relative;
-    padding-top: 0;
+    // padding-top: 0;
 
     &__inner {
       position: relative;

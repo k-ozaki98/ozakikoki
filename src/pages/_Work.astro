@@ -25,7 +25,7 @@ const { items }: { items: NewtWorkArticle[] } = await newtClient.getContents({
       </span>
     </div>
 
-    <TopWorkList data={items} />
+    <TopWorkList data={items} client:load />
   </div>
 </div>
 

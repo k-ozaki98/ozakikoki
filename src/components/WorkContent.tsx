@@ -6,8 +6,8 @@ import type { NewtWorkArticle } from '../lib/newt';
 const styles = {
   workContent: css`
     cursor: pointer;
-    width: ${vwPc(764)};
-    height: ${vwPc(394)};
+    width: 100%; // 固定幅から相対幅に変更
+    height: 100%;
     position: relative;
     overflow: hidden;
 
