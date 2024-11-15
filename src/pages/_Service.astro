@@ -65,6 +65,10 @@
       position: relative;
       z-index: 3;
 
+      @include max-screen($bp-sp) {
+        margin-bottom: 2rem;
+      }
+
       .layer-open {
         display: inline-block;
         width: 100%;
@@ -107,6 +111,13 @@
       visibility: hidden;
       transition: opacity 0.5s;
 
+      @include max-screen($bp-sp) {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        min-height: auto;
+        padding: 0 1rem;
+      }
+
       &.visible {
         opacity: 1;
         visibility: visible;
@@ -121,6 +132,13 @@
       transform-origin: center center;
       left: 10%;    
       top: vw-pc(300); 
+
+      @include max-screen($bp-sp) {
+        height: 16rem;
+        width: 16rem;
+        left: 0;
+        top: 10rem;
+      }
     }
 
     .circle {
@@ -145,12 +163,24 @@
         margin: 0;
         will-change: transform; // パフォーマンス最適化
 
+        @include max-screen($bp-sp) {
+          width: 18rem;
+          height: 18rem;
+          font-size: 1rem;
+          left: calc(50% - 9rem); // 中央からの距離
+          top: calc(50% - 9rem);
+        }
+
         &.active {
             opacity: 1;
             // scaleを個別のGSAPアニメーションで制御するため、ここでは除外
             box-shadow: 0 0 30px rgba(39, 211, 255, 0.4);
             z-index: 2;
             transform: scale(1.8);
+
+            @include max-screen($bp-sp) {
+              transform: scale(1.1);
+            }
             
         }
 
@@ -176,6 +206,11 @@
       padding: vw-pc(50) 0;
       position: relative;
 
+      @include max-screen($bp-sp) {
+        padding: 2rem 0;
+        margin-top: 12rem;
+      }
+
       .description {
         position: absolute;
         top: vw-pc(50);  // 追加
@@ -184,6 +219,11 @@
         opacity: 0;
         transform: translateY(20px);
         transition: all 0.5s;
+
+        @include max-screen($bp-sp) {
+          top: 0;
+          margin-top: 1rem;
+        }
 
         &.active {
           opacity: 1;
@@ -194,11 +234,20 @@
         h3 {
           font-size: vw-pc(30);
           margin-bottom: vw-pc(20);
+
+          @include max-screen($bp-sp) {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+          }
         }
 
         p {
           font-size: vw-pc(20);
           line-height: 1.8;
+
+          @include max-screen($bp-sp) {
+            font-size: 1.6rem;
+          }
         }
       }
     }
@@ -269,13 +318,14 @@
     
     // 定数の定義
     const CONFIG = {
-        radius: vwToPx(13),
-        centerX: window.innerWidth / 3,
-        centerY: vwToPx(20),
+
+        radius: window.innerWidth <= 768 ? 100 : vwToPx(13),
+        centerX: window.innerWidth <= 768 ? window.innerWidth / 2 : window.innerWidth / 3,
+        centerY: window.innerWidth <= 768 ? 200 : vwToPx(20), // 8rem -> 128px, 20rem -> 320px
         startAngle: (-130 * Math.PI / 180),
         activeScale: 1,
-        inactiveScale: 0.6,
-        rotationDuration: 1.6
+        inactiveScale: window.innerWidth <= 768 ? 0.5 : 0.6,
+        rotationDuration: window.innerWidth <= 768 ? 1.2 : 1.6
     };
     
     // DOM要素の取得
