@@ -33,17 +33,17 @@
       </div>
       <div class="about__list-wrap">
         <div class="about__ja">
-          <h3 class="about__name"><span class="clip-path-layer">尾崎 幸喜</span></h3>
-          <p class="about__job"><span class="clip-path-layer">フロントエンドエンジニア</span></p>
-          <div class="about__text-wrap">
+          <h3 class="about__name"><span class="clip-path">尾崎 幸喜</span></h3>
+          <p class="about__job"><span class="clip-path">フロントエンドエンジニア</span></p>
+          <div class="about__text-wrap fade-in">
             <p class="about__text">はじめまして。京都府京丹後市で生まれ。</p>
             <p class="about__text">2022年に未経験からWeb業界に飛び込み、現在は大阪市でフロントエンドエンジニアとして活動しています。</p>
           </div>
         </div>
         <div class="about__en">
-          <h3 class="about__name"><span class="clip-path-layer">Koki Ozaki</span></h3>
-          <p class="about__job"><span class="clip-path-layer">Frontend Engineer</span></p>
-          <div class="about__text-wrap">
+          <h3 class="about__name"><span class="clip-path">Koki Ozaki</span></h3>
+          <p class="about__job"><span class="clip-path">Frontend Engineer</span></p>
+          <div class="about__text-wrap fade-in">
             <p class="about__text">Nice to meet you.Born in Kyotango City, Kyoto Prefecture.</p>
             <p class="about__text">I jumped into the web industry in 2022 with no experience and am currently working as a front-end engineer in Osaka City.</p>
           </div>
@@ -67,9 +67,9 @@
     </section>
 
     <section class="about__skills">
-      <h3 class="about__skills-title">Skills</h3>
+      <h3 class="about__skills-title fade-in">Skills</h3>
       
-      <div class="skills-container">
+      <div class="skills-container fade-in">
         <div class="main-skills">
           <div class="skill-category">
             <h4>Languages</h4>
@@ -238,7 +238,7 @@
         width: auto;
 
         @include max-screen($bp-sp) {
-          height: 8rem;
+          height: 7rem;
         }
 
         path {
@@ -372,6 +372,11 @@
         text-align: center;
         margin-bottom: vw-pc(50);
         font-family: "Cormorant Garamond", serif;
+
+        @include max-screen($bp-sp) {
+          font-size: 4rem;
+          margin-bottom: 2.5rem;
+        }
       }
     }
   }
@@ -388,6 +393,11 @@
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 
+  @include max-screen($bp-sp) {
+    gap: 2rem;
+    padding: 2rem;
+  }
+
   &::before {
     content: '';
     position: absolute;
@@ -402,11 +412,11 @@
   .main-skills {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: vw-pc(40);
+    gap: 4rem;
 
     @include max-screen($bp-sp) {
       grid-template-columns: 1fr;
-      gap: 3rem;
+      gap: 2rem;
     }
   }
 
@@ -426,10 +436,21 @@
     font-weight: 600;
     font-family: "Cormorant Garamond", serif;
 
+    @include max-screen($bp-sp) {
+      font-size: 2rem;
+      text-align: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
     &::before {
       content: '✦';
       color: #85FFBD;
       font-size: vw-pc(20);
+
+      @include max-screen($bp-sp) {
+        font-size: 1.6rem;
+      }
     }
   }
 }
@@ -441,6 +462,11 @@
   background: rgba(255, 255, 255, 0.8);
   border-radius: vw-pc(15);
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+
+  @include max-screen($bp-sp) {
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
 }
 
 .skill-item {
@@ -450,7 +476,11 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: vw-pc(8);
-    font-size: vw-pc(16);
+    font-size: 1.6rem;
+
+    @include max-screen($bp-sp) {
+      font-size: 1.4rem;
+    }
 
     .skill-name {
       color: #333;
@@ -458,19 +488,31 @@
       display: flex;
       align-items: center;
       gap: vw-pc(10);
+
+      @include max-screen($bp-sp) {
+        gap: 0.5rem;
+      }
       
       &::before {
         content: '▸';
         color: #85FFBD;
-        font-size: vw-pc(16);
+        font-size: 1.6rem;
+
+        @include max-screen($bp-sp) {
+          font-size: 1.4rem;
+        }
       }
     }
 
     .skill-percentage {
       color: #333;
       font-weight: 600;
-      font-size: vw-pc(14);
+      font-size: 1.4rem;
       font-family: 'Inter', sans-serif;
+
+      @include max-screen($bp-sp) {
+        font-size: 1.2rem;
+      }
     }
   }
 

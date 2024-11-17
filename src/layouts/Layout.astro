@@ -49,13 +49,12 @@ const { pageId, title, description } = Astro.props;
         <!-- 画面遷移アニメーション -->
              <div class="transition-wrapper">
                  {pageId !== 'top' && (
-                    <div class="stripes">
-                        <div class="stripeWrapper">
-                            <div class="stripe"></div>
-                            <div class="stripe"></div>
-                            <div class="stripe"></div>
-                            <div class="stripe"></div>
-                        </div>
+                    <div class="page-transition">
+                        <div class="page-transition__layer"></div>
+                        <div class="page-transition__layer"></div>
+                        <div class="page-transition__layer"></div>
+                        <div class="page-transition__layer"></div>
+                        <div class="page-transition__layer"></div>
                     </div>
                 )}
 
@@ -88,17 +87,18 @@ const { pageId, title, description } = Astro.props;
                       <div class="menu-layer"></div>
                       <div class="menu">
                         <ul class="menu__list">
-                          <li><a href="#about">ABOUT<br><span>私について</span></a></li>
-                          <li><a href="#service">SERVICE<br><span>サービス</span></a></li>
-                          <li><a href="#blog">BLOG<br><span>ブログ</span></a></li>
-                          <li><a href="#contact">CONTACT<br><span>お問い合わせ</span></a></li>
+                          <li><a href="#about">ABOUT</a></li>
+                          <li><a href="#service">SERVICE</a></li>
+                          <li><a href="#work">WORK</a></li>
+                          <li><a href="#blog">BLOG</a></li>
+                          <li><a href="#contact">CONTACT</a></li>
                         </ul>
                       </div>
                      <div class={`wrap wrap--${pageId}`}>
                          <Header />
                          <div id="luxy" class={`contents contents--${pageId}`}>
                              <slot />
-                             <Footer />
+                             <Footer pageId={`${pageId}`} />
                          </div>
                      </div>
                  </div>
@@ -365,44 +365,46 @@ const { pageId, title, description } = Astro.props;
     }
 
     //画面遷移スタイル
-    .stripes{
-        display: flex;
-        align-items: flex-start;
-        justify-content: right;
-        width: 100%;
-        height: 100vh;
+    .page-transition {
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 999;
-        overflow: hidden;
-        pointer-events: none;
-    }
-    .stripeWrapper{
-        position: absolute;
         width: 100%;
-        height: 100%;
-        z-index: 1;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-    }
-    @keyframes stripeFadeOut {
-        from { transform: translateY(0); }
-        to { transform: translateY(100%); }
-    }
+        height: 100vh;
+        z-index: 999;
+        pointer-events: none;
+        visibility: hidden;
 
-    .stripe {
-        background-color: #576ef0;
-        transform: translateY(0);
-        transition: transform 0.5s ease-in-out;
-    }
+        &__layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: scaleX(0);
+            transform-origin: right;
 
-    .stripe-exit {
-        animation: stripeFadeOut 0.5s ease-in-out forwards;
-    }
-
-    .stripes-hidden {
-        display: none;
+            &:nth-child(1) {
+                background-color: #576ef0;
+                z-index: 5;
+            }
+            &:nth-child(2) {
+                background-color: #4B5BC7;
+                z-index: 4;
+            }
+            &:nth-child(3) {
+                background-color: #3F4BA3;
+                z-index: 3;
+            }
+            &:nth-child(4) {
+                background-color: #343E87;
+                z-index: 2;
+            }
+            &:nth-child(5) {
+                background-color: #E1E1E1;
+                z-index: 1;
+            }
+        }
     }
 
     .content-wrapper {
@@ -576,9 +578,9 @@ const { pageId, title, description } = Astro.props;
         const bodyId = document.querySelector('body').getAttribute('data-pageid');
         const isTop = bodyId === 'top';
 
-        if (!isTop) {
-            animatePageEntry();
-        }
+        if (!pageTransition) {
+        pageTransition = new PageTransition();
+    }
     });
 
     document.addEventListener('astro:before-preparation', () => {
@@ -587,24 +589,81 @@ const { pageId, title, description } = Astro.props;
         }
     });
 
-    function animatePageEntry() {
-        const stripes = document.querySelectorAll('.stripe');
-        const stripesWrapper = document.querySelector('.stripes');
-        const contentWrapper = document.querySelector('.content-wrapper');
-        
-        stripesWrapper.classList.remove('stripes-hidden');
-        
-        stripes.forEach((stripe, index) => {
-            setTimeout(() => {
-            stripe.classList.add('stripe-exit');
-            }, index * 100);
-        });
+    class PageTransition {
+        constructor() {
+            this.overlay = document.querySelector('.page-transition');
+            if (!this.overlay) return;
+            
+            this.layers = gsap.utils.toArray('.page-transition__layer');
+            this.isTransitioning = false;
+            
+            this.init();
+        }
 
-        setTimeout(() => {
-            contentWrapper.classList.add('visible');
-            stripesWrapper.classList.add('stripes-hidden');
-        }, stripes.length * 100 + 500); // アニメーション完了後、少し余裕を持たせて非表示に
+        init() {
+            // カスタムリンクの処理
+            document.addEventListener('click', (e) => {
+                const link = e.target.closest('a');
+                if (link && link.href && !link.target && !e.ctrlKey && !e.metaKey) {
+                    e.preventDefault();
+                    if (this.isTransitioning) return;
+                    
+                    this.playTransition(link.href);
+                }
+            });
+
+            // ページロード時のエントランスアニメーション
+            if (document.querySelector('body')?.getAttribute('data-pageid') !== 'top') {
+                this.playEntrance();
+            }
+        }
+
+        playTransition(href) {
+            this.isTransitioning = true;
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    navigate(href);
+                }
+            });
+
+            tl.set(this.overlay, {
+                visibility: 'visible'
+            })
+            .to(this.layers, {
+                scaleX: 1,
+                duration: 0.7,
+                ease: 'power4.inOut',
+                stagger: 0.1,
+                transformOrigin: 'right'
+            });
+        }
+
+        playEntrance() {
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    gsap.set(this.overlay, { visibility: 'hidden' });
+                    this.isTransitioning = false;
+                }
+            });
+
+            tl.set(this.overlay, {
+                visibility: 'visible'
+            })
+            .set(this.layers, {
+                scaleX: 1,
+                transformOrigin: 'left'
+            })
+            .to(this.layers, {
+                scaleX: 0,
+                duration: 0.7,
+                ease: 'power4.inOut',
+                stagger: 0.1,
+                transformOrigin: 'left'
+            });
+        }
     }
+
+    let pageTransition;
 
     // カスタムリンクの処理
     document.addEventListener('click', (e) => {

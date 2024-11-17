@@ -39,6 +39,10 @@ const { items }: { items: NewtWorkArticle[] } = await newtClient.getContents({
     padding-bottom: 0;
     padding-top: 0;
 
+    @include max-screen($bp-sp) {
+      padding: 5rem 0;
+    }
+
     &__inner {
       position: relative;
       

@@ -1,12 +1,16 @@
 ---
 import FlowText from "../components/FlowText.astro";
 
+interface Props {
+    pageId?: string;
+}
 
+const {pageId} = Astro.props;
 ---
 
 
 <footer id="footer" class="footer">
-    <FlowText />
+    {pageId === 'top' && <FlowText />}
 
     <p class="footer__copy"><small>© 2024 KOKI OZAKI All rights reserved.</small></p>
 
@@ -67,8 +71,6 @@ import FlowText from "../components/FlowText.astro";
     &__copy {
         text-align: center;
         font-size: vw-pc(24);
-        padding-top: vw-pc(40);
-        padding-bottom: vw-pc(40);
         color: #fff;
         font-weight: bold;
         font-family: "Cormorant Garamond", serif;

@@ -313,156 +313,185 @@
 
 <script>
   import {
-		ScrollTrigger
-	} from "gsap/ScrollTrigger";
+    ScrollTrigger
+  } from "gsap/ScrollTrigger";
   import gsap from "../scripts/gsap";
 
   function initServiceAnimations() {
     gsap.registerPlugin(ScrollTrigger);
     
-    // 定数の定義
-    const CONFIG = {
+    // 設定を動的に計算する関数
+    const getConfig = () => ({
+      radius: window.innerWidth <= 768 ? 100 : vwToPx(13),
+      centerX: window.innerWidth <= 768 ? window.innerWidth / 2 : window.innerWidth / 3,
+      centerY: window.innerWidth <= 768 ? 200 : vwToPx(20),
+      startAngle: (-130 * Math.PI / 180),
+      activeScale: 1,
+      inactiveScale: window.innerWidth <= 768 ? 0.5 : 0.6,
+      rotationDuration: window.innerWidth <= 768 ? 1.2 : 1.6
+    });
 
-        radius: window.innerWidth <= 768 ? 100 : vwToPx(13),
-        centerX: window.innerWidth <= 768 ? window.innerWidth / 2 : window.innerWidth / 3,
-        centerY: window.innerWidth <= 768 ? 200 : vwToPx(20), // 8rem -> 128px, 20rem -> 320px
-        startAngle: (-130 * Math.PI / 180),
-        activeScale: 1,
-        inactiveScale: window.innerWidth <= 768 ? 0.5 : 0.6,
-        rotationDuration: window.innerWidth <= 768 ? 1.2 : 1.6
-    };
+    // 現在の設定を保持
+    let CONFIG = getConfig();
     
     // DOM要素の取得
     const elements = {
-        circles: document.querySelectorAll('.circle'),
-        descriptions: document.querySelectorAll('.description'),
-        paths: document.querySelectorAll('.service-path')
+      circles: document.querySelectorAll('.circle'),
+      descriptions: document.querySelectorAll('.description'),
+      paths: document.querySelectorAll('.service-path')
     };
     
     let currentIndex = 0;
+    let scrollTriggers = [];
 
     // アニメーション関連の関数
     const animations = {
-        positionCircles() {
-            elements.circles.forEach((circle, i) => {
-                const angle = CONFIG.startAngle + (i * (2 * Math.PI / 3));
-                gsap.set(circle, {
-                    x: CONFIG.radius * Math.cos(angle),
-                    y: CONFIG.radius * Math.sin(angle),
-                    rotation: 0,
-                    scale: i === 0 ? CONFIG.activeScale : CONFIG.inactiveScale
-                });
-            });
-            gsap.set(elements.circles[0], { scale: CONFIG.activeScale });
-        },
-
-        animateServiceText() {
-            elements.paths.forEach((path, index) => {
-                gsap.fromTo(path,
-                    { opacity: 0, y: 50, x: 20 },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        x: 0,
-                        duration: 0.5,
-                        delay: index * 0.1,
-                        ease: "power2.out"
-                    }
-                );
-            });
-        },
-
-        rotateCircles(newIndex) {
-            const rotationAmount = -120 * newIndex;
-
-            // 親要素の回転とスケールアニメーション
-            gsap.to('.service__circles', {
-                rotation: rotationAmount,
-                duration: CONFIG.rotationDuration,
-                ease: "power2.out",
-                keyframes: [
-                    { scale: 1 },
-                    { scale: 2.4, duration: 0.9 },
-                    { scale: 1, duration: 0.7 }
-                ]
-            });
-
-            // 個々のサークルのアニメーション
-            elements.circles.forEach((circle, i) => {
-                gsap.to(circle, {
-                    rotation: -rotationAmount,
-                    scale: i === newIndex ? CONFIG.activeScale : CONFIG.inactiveScale,
-                    duration: CONFIG.rotationDuration,
-                    ease: "power2.out"
-                });
-            });
-
-            // アクティブ状態の更新
-            this.updateActiveStates(newIndex);
-        },
-
-        updateActiveStates(newIndex) {
-            elements.descriptions.forEach((desc, i) => {
-                desc.classList.toggle('active', i === newIndex);
-            });
-            elements.circles.forEach((circle, i) => {
-                circle.classList.toggle('active', i === newIndex);
-            });
-            currentIndex = newIndex;
-        }
-    };
-
-    // ScrollTriggerの設定
-    const initScrollTriggers = () => {
-        // SVGパスアニメーション用
-        ScrollTrigger.create({
-            trigger: ".service__text",
-            start: "top 70%",
-            once: true,
-            onEnter: () => animations.animateServiceText()
+      positionCircles() {
+        elements.circles.forEach((circle, i) => {
+          const angle = CONFIG.startAngle + (i * (2 * Math.PI / 3));
+          gsap.set(circle, {
+            x: CONFIG.radius * Math.cos(angle),
+            y: CONFIG.radius * Math.sin(angle),
+            rotation: 0,
+            scale: i === currentIndex ? CONFIG.activeScale : CONFIG.inactiveScale
+          });
         });
+      },
 
-        // メインのスクロールアニメーション
-        ScrollTrigger.create({
-            trigger: "#service",
-            start: "top top",
-            end: "+=200%",
-            pin: true,
-            scrub: 0.5,
-            onEnter: () => {
-                gsap.to('.service__content', {
-                    opacity: 1,
-                    visibility: 'visible',
-                    duration: 0.5,
-                    delay: 0.5
-                });
-            },
-            onUpdate: (self) => {
-                const newIndex = Math.floor(self.progress * 3);
-                if (newIndex !== currentIndex && newIndex < 3) {
-                    animations.rotateCircles(newIndex);
-                }
+      animateServiceText() {
+        elements.paths.forEach((path, index) => {
+          gsap.fromTo(path,
+            { opacity: 0, y: 50, x: 20 },
+            {
+              opacity: 1,
+              y: 0,
+              x: 0,
+              duration: 0.5,
+              delay: index * 0.1,
+              ease: "power2.out"
             }
+          );
         });
+      },
+
+      rotateCircles(newIndex) {
+        const rotationAmount = -120 * newIndex;
+
+        // 親要素の回転とスケールアニメーション
+        gsap.to('.service__circles', {
+          rotation: rotationAmount,
+          duration: CONFIG.rotationDuration,
+          ease: "power2.out",
+          keyframes: [
+            { scale: 1 },
+            { scale: 2.4, duration: 0.9 },
+            { scale: 1, duration: 0.7 }
+          ]
+        });
+
+        // 個々のサークルのアニメーション
+        elements.circles.forEach((circle, i) => {
+          gsap.to(circle, {
+            rotation: -rotationAmount,
+            scale: i === newIndex ? CONFIG.activeScale : CONFIG.inactiveScale,
+            duration: CONFIG.rotationDuration,
+            ease: "power2.out"
+          });
+        });
+
+        this.updateActiveStates(newIndex);
+      },
+
+      updateActiveStates(newIndex) {
+        elements.descriptions.forEach((desc, i) => {
+          desc.classList.toggle('active', i === newIndex);
+        });
+        elements.circles.forEach((circle, i) => {
+          circle.classList.toggle('active', i === newIndex);
+        });
+        currentIndex = newIndex;
+      }
     };
+
+    // ScrollTriggerの設定と管理
+    const initScrollTriggers = () => {
+      // 既存のトリガーをクリーンアップ
+      scrollTriggers.forEach(trigger => trigger.kill());
+      scrollTriggers = [];
+
+      // SVGパスアニメーション用
+      scrollTriggers.push(
+        ScrollTrigger.create({
+          trigger: ".service__text",
+          start: "top 70%",
+          once: true,
+          onEnter: () => animations.animateServiceText()
+        })
+      );
+
+      // メインのスクロールアニメーション
+      scrollTriggers.push(
+        ScrollTrigger.create({
+          trigger: "#service",
+          start: "top top",
+          end: "+=200%",
+          pin: true,
+          scrub: 0.5,
+          onEnter: () => {
+            gsap.to('.service__content', {
+              opacity: 1,
+              visibility: 'visible',
+              duration: 0.5,
+              delay: 0.5
+            });
+          },
+          onUpdate: (self) => {
+            const newIndex = Math.floor(self.progress * 3);
+            if (newIndex !== currentIndex && newIndex < 3) {
+              animations.rotateCircles(newIndex);
+            }
+          }
+        })
+      );
+    };
+
+    // リサイズハンドラー
+    const handleResize = () => {
+      // 設定の更新
+      CONFIG = getConfig();
+      // アニメーションの再配置
+      animations.positionCircles();
+      // ScrollTriggerの再初期化
+      initScrollTriggers();
+    };
+
+    // デバウンス関数
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
 
     // 初期化
     animations.positionCircles();
     animations.updateActiveStates(0);
     initScrollTriggers();
 
-    // リサイズ対応
-    window.addEventListener('resize', () => {
-        CONFIG.centerX = window.innerWidth / 3;
-        animations.positionCircles();
-    });
-}
+    // リサイズイベントリスナーの設定（デバウンス処理付き）
+    window.addEventListener('resize', debounce(handleResize, 250));
+  }
 
-// vwをピクセルに変換するユーティリティ関数
-function vwToPx(vw) {
+  // vwをピクセルに変換するユーティリティ関数
+  function vwToPx(vw) {
     return (vw * window.innerWidth) / 100;
-}
+  }
 
-// 初期化
-window.addEventListener('load', initServiceAnimations);
+  // 初期化
+  window.addEventListener('load', initServiceAnimations);
 </script>
