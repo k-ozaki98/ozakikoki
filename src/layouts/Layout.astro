@@ -143,6 +143,10 @@ const { pageId, title, description } = Astro.props;
 
     .sec-inner {
         padding: 10rem 0;
+
+        @include max-screen($bp-sp) {
+            padding: 5rem 0;
+        }
     }
 
     #animation-container {

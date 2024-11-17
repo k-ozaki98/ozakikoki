@@ -53,6 +53,10 @@
     width: 100%;
     position: relative;
 
+    @include max-screen($bp-sp) {
+      margin-bottom: 5rem;
+    }
+
     &__inner {
       position: relative;
       
@@ -79,7 +83,7 @@
         width: auto;
 
         @include max-screen($bp-sp) {
-          height: 8rem;
+          height: 7rem;
         }
 
         path {
@@ -131,7 +135,7 @@
       margin: 0 auto;
       transform-origin: center center;
       left: 10%;    
-      top: vw-pc(300); 
+      top: vw-pc(250); 
 
       @include max-screen($bp-sp) {
         height: 16rem;

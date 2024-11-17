@@ -11,10 +11,6 @@ const styles = {
     position: relative;
     overflow: hidden;
 
-    @media screen and (max-width: ${bpSp}) {
-      width: 35rem;
-      height: 18rem;
-    }
 
     &:hover .overlay {
       opacity: 1;

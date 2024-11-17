@@ -37,7 +37,8 @@ const columnCardStyle = css`
     position: relative;
 
     @media screen and (max-width: ${bpSp}) {
-      height: 9rem;
+      aspect-ratio: 16/9;
+      height: auto;
     }
 
     img {
@@ -110,7 +111,7 @@ const columnCardStyle = css`
     justify-content: space-between;
 
     @media screen and (max-width: ${bpSp}) {
-      padding: 1rem 1.5rem;
+      padding: 1rem 0;
       padding-left: 0;
       padding-bottom: 0;
     }
@@ -155,7 +156,7 @@ const columnCardStyle = css`
     line-height: 1.4;
 
     @media screen and (max-width: ${bpSp}) {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       margin-bottom: 0.8rem;
     }
   }

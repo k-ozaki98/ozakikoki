@@ -1,0 +1,134 @@
+<div class="circle-wrap fade-in">
+    <div class="circle-container">
+        <p class="circle-text">
+            <span>S</span>
+            <span>c</span>
+            <span>r</span>
+            <span>o</span>
+            <span>l</span>
+            <span>l</span>
+            <span> </span>
+            <span>D</span>
+            <span>o</span>
+            <span>w</span>
+            <span>n</span>
+            <span> </span>
+            <span>S</span>
+            <span>c</span>
+            <span>r</span>
+            <span>o</span>
+            <span>l</span>
+            <span>l</span>
+            <span> </span>
+            <span>D</span>
+            <span>o</span>
+            <span>w</span>
+            <span>n</span>
+            <span> </span>
+            <span>S</span>
+            <span>c</span>
+            <span>r</span>
+            <span>o</span>
+            <span>l</span>
+            <span>l</span>
+            <span> </span>
+            <span>D</span>
+            <span>o</span>
+            <span>w</span>
+            <span>n</span>
+            <span> </span>
+            <span>S</span>
+            <span>c</span>
+            <span>r</span>
+            <span>o</span>
+            <span>l</span>
+            <span>l</span>
+            <span> </span>
+            <span>D</span>
+            <span>o</span>
+            <span>w</span>
+            <span>n</span>
+            <span> </span>
+        </p>
+    </div>
+
+</div>
+
+<style lang="scss">
+    @import "../styles/vars.scss";
+
+    .circle-wrap {
+        position: absolute;
+        font-family: 'Marcellus', serif;
+        right: -18%;
+        top: 50%;
+        width: 20rem;
+        height: 20rem;
+
+        @include max-screen($bp-sp) {
+            width: 10rem;
+            height: 10rem;
+            right: 2%;
+            top: 50%;
+        }
+        &::after {
+            content: "";
+            width: 3rem;
+            height: 3rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(90deg);
+            background: url(../images/common/arrow.svg)no-repeat center center;
+            background-size: contain;
+
+            @include max-screen($bp-sp) {
+                width: 2rem;
+                height: 2rem;
+            }
+        }
+    }
+
+    .circle-text {
+        position: relative;
+        width: 20rem;
+        height: 20rem;
+        font-size: 1.8rem;
+        text-align: center;
+        margin: 0;
+        animation: rotate 20s linear infinite;
+
+        @include max-screen($bp-sp) {
+            width: 10rem;
+            height: 10rem;
+            font-size: 1rem;
+        }
+
+        span {
+            position: absolute;
+            top: 0;
+            left: calc(50% - 1.5rem);
+            display: inline-block;
+            width: 3rem;
+            height: 10rem;
+            transform-origin: center bottom;
+
+            @include max-screen($bp-sp) {
+                height: 5rem;
+            }
+
+            @for $i from 1 through 48 {
+                &:nth-of-type(#{$i}) {
+                    transform: rotate(#{($i - 1) * 7.5}deg);
+                }
+            }
+        }
+    }
+
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+
+</style>
