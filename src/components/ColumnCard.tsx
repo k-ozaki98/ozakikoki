@@ -6,6 +6,7 @@ import type { NewtColumnArticle } from '../lib/newt';
 import { formatToEuropeanDate, formatToJapaneseDate } from '../scripts/utility';
 
 interface Props {
+  
   data: NewtColumnArticle;
 }
 
