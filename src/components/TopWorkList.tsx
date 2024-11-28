@@ -27,7 +27,7 @@ const styles = {
   `,
   workContent: css`
     width: 100%;
-    aspect-ratio: 764/394;
+    aspect-ratio: 16/9;
     position: relative;
 
     @media screen and (max-width: ${bpSp}) {

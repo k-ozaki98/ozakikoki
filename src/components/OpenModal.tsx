@@ -11,7 +11,7 @@ const styles = {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.75); // オーバーレイを少し濃くする
+    background-color: rgba(0, 0, 0, 0.85);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,7 +19,8 @@ const styles = {
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); // トランジションを滑らかに
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(8px);
 
     &.open {
       opacity: 1;
@@ -33,9 +34,9 @@ const styles = {
     }
   `,
   modalContent: css`
-    background-color: rgba(17, 17, 17, 0.95); // 背景色を少し変更
-    padding: ${vwPc(60)} ${vwPc(70)};
-    border-radius: 16px; // 角丸を大きく
+    background: linear-gradient(145deg, rgba(23, 23, 23, 0.95), rgba(17, 17, 17, 0.98));
+    padding: ${vwPc(50)} ${vwPc(60)};
+    border-radius: 24px;
     min-height: 60vh;
     max-width: 85%;
     max-height: 85%;
@@ -44,18 +45,20 @@ const styles = {
     color: #fff;
     display: flex;
     width: ${vwPc(1400)};
-    gap: ${vwPc(70)};
-    transform: translateY(20px) scale(0.95);
+    gap: ${vwPc(60)};
+    transform: translateY(30px) scale(0.95);
     opacity: 0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4); // シャドウを追加
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 
+      0 25px 50px -12px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
     
     @media screen and (max-width: ${bpSp}) {
       display: block;
-      padding: 7rem 3rem 5rem;
+      padding: 6rem 2.5rem 4rem;
       max-width: 92%;
       width: 100%;
-      border-radius: 12px;
+      border-radius: 20px;
       margin: 0 auto;
     }
 
@@ -72,20 +75,44 @@ const styles = {
     .modal-image-wrap {
       overflow-y: scroll;
       width: 48%;
-      border-radius: 8px; // 画像エリアにも角丸を追加
-      background: rgba(0, 0, 0, 0.2); // 背景色を追加
-      padding: ${vwPc(20)}; // パディングを追加
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: ${vwPc(24)};
+      border: 1px solid rgba(255, 255, 255, 0.1);
 
       @media screen and (max-width: ${bpSp}) {
         width: 100%;
         padding: 1.5rem;
       }
 
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        
+        &:hover {
+          background: rgba(255, 255, 255, 0.3);
+        }
+      }
+
       img {
         max-height: initial;
         width: 100%;
-        border-radius: 4px; // 画像自体にも角丸を追加
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); // 画像にシャドウを追加
+        border-radius: 8px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+        
+        &:hover {
+          transform: scale(1.02);
+        }
       }
     }
 
@@ -93,14 +120,14 @@ const styles = {
       position: absolute;
       top: ${vwPc(20)};
       right: ${vwPc(20)};
-      font-size: ${vwPc(40)};
+      font-size: ${vwPc(32)};
       color: #fff;
       background: rgba(255, 255, 255, 0.1);
-      border: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
       cursor: pointer;
       line-height: 1;
-      width: ${vwPc(50)};
-      height: ${vwPc(50)};
+      width: ${vwPc(44)};
+      height: ${vwPc(44)};
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -108,36 +135,42 @@ const styles = {
       transition: all 0.3s ease;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.15);
         transform: rotate(90deg);
+        border-color: rgba(255, 255, 255, 0.3);
       }
 
       @media screen and (max-width: ${bpSp}) {
-        font-size: 2.8rem;
-        width: 4rem;
-        height: 4rem;
+        font-size: 2.4rem;
+        width: 3.6rem;
+        height: 3.6rem;
         top: 1.5rem;
         right: 1.5rem;
       }
     }
 
     h2 {
-      margin-bottom: ${vwPc(40)};
-      font-size: ${vwPc(24)}; // フォントサイズを大きく
-      font-weight: 600; // フォントを太く
-      letter-spacing: 0.02em;
+      margin-bottom: ${vwPc(36)};
+      font-size: ${vwPc(28)};
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.4;
+      background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.8));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
 
       @media screen and (max-width: ${bpSp}) {
-        font-size: 1.8rem;
-        margin-bottom: 2.2rem;
+        font-size: 2rem;
+        margin-bottom: 2rem;
       }
     }
 
     .description {
       margin-bottom: ${vwPc(40)};
-      font-size: ${vwPc(18)};
+      font-size: ${vwPc(16)};
       line-height: 1.8;
-      opacity: 0.9; // テキストを少し透過
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 400;
 
       @media screen and (max-width: ${bpSp}) {
         font-size: 1.4rem;
@@ -148,70 +181,77 @@ const styles = {
     .tags {
       display: flex;
       flex-wrap: wrap;
-      gap: ${vwPc(12)}; // gap を使用してマージンを整理
-      margin-bottom: ${vwPc(30)};
+      gap: ${vwPc(10)};
+      margin-bottom: ${vwPc(32)};
 
       @media screen and (max-width: ${bpSp}) {
-        gap: 1rem;
-        margin-bottom: 2.5rem;
+        gap: 0.8rem;
+        margin-bottom: 2rem;
       }
 
       li {
         span {
           display: inline-block;
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          font-size: ${vwPc(14)};
-          padding: ${vwPc(8)} ${vwPc(16)};
-          background: rgba(255, 255, 255, 0.1);
-          color: #FFF;
-          border-radius: 100px; // タグを丸く
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          font-size: ${vwPc(13)};
+          padding: ${vwPc(6)} ${vwPc(14)};
+          background: rgba(255, 255, 255, 0.08);
+          color: rgba(255, 255, 255, 0.9);
+          border-radius: 100px;
           transition: all 0.3s ease;
+          font-weight: 500;
 
           &:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
           }
 
           @media screen and (max-width: ${bpSp}) {
             font-size: 1.2rem;
-            padding: 0.6rem 1.2rem;
+            padding: 0.5rem 1rem;
           }
         }
       }
     }
 
     .link-button {
-      font-size: ${vwPc(16)};
+      font-size: ${vwPc(15)};
       position: relative;
       display: inline-flex;
       align-items: center;
       padding: ${vwPc(12)} ${vwPc(24)};
       background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 100px;
       transition: all 0.3s ease;
+      font-weight: 500;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.15);
         transform: translateX(5px);
+        border-color: rgba(255, 255, 255, 0.3);
       }
 
       @media screen and (max-width: ${bpSp}) {
-        font-size: 1.4rem;
-        padding: 1rem 2rem;
+        font-size: 1.3rem;
+        padding: 0.8rem 1.6rem;
       }
 
       &::after {
         content: "";
-        width: ${vwPc(20)};
-        height: ${vwPc(20)};
+        width: ${vwPc(18)};
+        height: ${vwPc(18)};
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='27' height='27' viewBox='0 0 27 27' fill='none'%3E%3Cpath d='M4.96875 0V21.5312H26.5V0H4.96875ZM24.4297 19.4609H7.03906V2.07031H24.4297V19.4609Z' fill='%23fff'/%3E%3Cpath d='M2.07031 24.4297V15.3203V7.03906V4.96875H0V26.5H21.5312V24.4297H19.4609H2.07031Z' fill='%23fff'/%3E%3Cpath d='M12.0497 16.1914L18.1498 10.0912V14.4801H20.2201V6.55713H12.2972V8.62744H16.6861L10.5859 14.7276L12.0497 16.1914Z' fill='%23fff'/%3E%3C/svg%3E");
         background-size: contain;
         background-repeat: no-repeat;
-        margin-left: ${vwPc(12)};
+        margin-left: ${vwPc(10)};
+        opacity: 0.9;
 
         @media screen and (max-width: ${bpSp}) {
-          width: 1.6rem;
-          height: 1.6rem;
-          margin-left: 1rem;
+          width: 1.4rem;
+          height: 1.4rem;
+          margin-left: 0.8rem;
         }
       }
     }

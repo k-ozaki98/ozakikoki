@@ -1,13 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { vwPc, bpSp } from '../scripts/styleVariables';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { NewtColumnArticle } from '../lib/newt';
 import { formatToEuropeanDate, formatToJapaneseDate } from '../scripts/utility';
 
 interface Props {
   data: NewtColumnArticle;
 }
+
+const limitTitle = (title: string, limit: number) => {
+  if(title.length <= limit) return title;
+  return title.substring(0, limit) + '...';
+};
 
 const columnCardStyle = css`
   width: 100%;
@@ -33,7 +38,8 @@ const columnCardStyle = css`
   .thumb {
     overflow: hidden;
     width: 100%;
-    height: ${vwPc(250)};
+    // height: ${vwPc(250)};
+    aspect-ratio: 16/9;
     position: relative;
 
     @media screen and (max-width: ${bpSp}) {
@@ -154,7 +160,7 @@ const columnCardStyle = css`
     font-size: ${vwPc(20)};
     margin-bottom: ${vwPc(15)};
     line-height: 1.4;
-
+  overflow-wrap: break-word;
     @media screen and (max-width: ${bpSp}) {
       font-size: 1.5rem;
       margin-bottom: 0.8rem;
@@ -188,6 +194,21 @@ const columnCardStyle = css`
 
 const ColumnCard: React.FC<Props> = ({ data }) => {
   const cardRef = useRef<HTMLElement>(null);
+  const [windowWidth, setWindowWidth] = useState<number>(
+    typeof window !== 'undefined' ? window.innerWidth : 768
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // タイトルの文字数制限を適用
+  const limitedTitle = limitTitle(data.title, windowWidth > 768 ? 50 : 25);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -224,7 +245,7 @@ const ColumnCard: React.FC<Props> = ({ data }) => {
         <div className="body">
           <div className="wrap">
             <p className="date">{createDate}</p>
-            <h3 className="ttl">{data.title}</h3>
+            <h3 className="ttl">{limitedTitle}</h3>
           </div>
           <div className="arrow">
             <svg version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" xmlSpace="preserve">
@@ -236,19 +257,17 @@ const ColumnCard: React.FC<Props> = ({ data }) => {
           </div>
         </div>
         <div className="top">
-          <figure className="thumb clip-path">
+          <figure className="thumb">
             <img
               src={data.coverImage?.src? `${data.coverImage.src}?width=782&height=450&fit=crop`: defaultThumbnailSrc }
               alt={data.coverImage?.title? data.coverImage.title: ''} 
             />
             <div className="overlay"></div>
           </figure>
-          {/* <p className="thumb-cate">{data.category[0].name}</p> */}
         </div>
-        
       </a>
     </article>
-    )
-}
+  );
+};
 
 export default ColumnCard;
