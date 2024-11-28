@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 
 const btnAStyle = css`
   --line_color: #000;
-  --back_color: #fac398;
+  --back_color: #98bdfa;
   position: relative;
   z-index: 0;
   width: 240px;

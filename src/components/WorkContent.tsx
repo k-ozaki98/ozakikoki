@@ -12,72 +12,63 @@ const styles = {
     overflow: hidden;
     border-radius: 16px;
     transform: translateZ(0);
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(45deg, rgba(255, 0, 85, 0.5), rgba(0, 120, 255, 0.5));
-      opacity: 0;
-      z-index: 1;
-      mix-blend-mode: hard-light;
-      transition: opacity 0.5s ease;
-    }
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
-      transform: scale(0.98);
-
-      &::before {
-        opacity: 1;
-      }
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 
       .work-content__img {
-        transform: scale(1.1) rotate(-2deg);
-        filter: contrast(1.1) saturate(1.2);
+        transform: scale(1.05);
+        filter: brightness(0.8) saturate(1.2);
       }
 
       .overlay {
         opacity: 1;
         visibility: visible;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(8px);
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.75) 0%,
+          rgba(0, 0, 0, 0.85) 100%
+        );
 
         &::after {
-          transform: translate(-50%, -50%) scale(1);
-          opacity: 0.1;
+          transform: translate(-50%, -50%) scale(1.2);
+          opacity: 0.15;
         }
+      }
 
-        .work-content__num {
-          transform: translateX(0);
-          opacity: 1;
-        }
+      .work-content__num {
+        transform: translateX(0) rotate(0deg);
+        opacity: 1;
+      }
 
-        .work-content__category {
+      .work-content__category {
+        li {
           transform: translateY(0);
           opacity: 1;
         }
+      }
 
-        .work-content__desc {
-          transform: translateY(0);
-          opacity: 1;
-        }
+      .work-content__desc {
+        transform: translateY(0);
+        opacity: 1;
+      }
 
-        .open-modal {
-          transform: translate(0, 0);
-          opacity: 1;
-        }
+      .open-modal {
+        transform: translate(0, 0);
+        opacity: 1;
       }
     }
 
     .work-content__img {
       height: 100%;
       width: 100%;
-      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
       object-fit: cover;
       transform: scale(1.001);
+      filter: brightness(0.95);
 
       @media screen and (max-width: ${bpSp}) {
         height: 100%;
@@ -88,23 +79,21 @@ const styles = {
       position: absolute;
       top: ${vwPc(40)};
       right: ${vwPc(40)};
-      font-size: ${vwPc(80)}; // サイズを小さく
-      font-style: italic;
+      font-size: ${vwPc(80)};
       font-weight: 900;
       font-family: "Inter", sans-serif;
-      background: linear-gradient(135deg, #fff 30%, rgba(255, 255, 255, 0.5));
+      background: linear-gradient(135deg, #fff 30%, rgba(255, 255, 255, 0.7));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      transform: translateX(100px);
+      transform: translateX(50px) rotate(-10deg);
       opacity: 0;
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
       transition-delay: 0.1s;
       text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
       line-height: 1;
-      z-index: 3; // z-indexを追加して確実に最前面に表示
-      pointer-events: none; // テキストの選択を防ぐ
+      z-index: 3;
+      pointer-events: none;
 
-      // 2桁以上の数字の場合のスタイル
       &[data-digits="2"] {
         font-size: ${vwPc(70)};
       }
@@ -113,7 +102,7 @@ const styles = {
       }
 
       @media screen and (max-width: ${bpSp}) {
-        font-size: 5rem; // モバイルでのサイズを調整
+        font-size: 5rem;
         top: 2rem;
         right: 2rem;
 
@@ -130,35 +119,37 @@ const styles = {
       display: flex;
       flex-wrap: wrap;
       gap: ${vwPc(10)};
-      transform: translateY(20px);
-      opacity: 0;
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      transition-delay: 0.2s;
       margin-bottom: ${vwPc(30)};
 
-      @media screen and (max-width: ${bpSp}) {
-        gap: 0.8rem;
-        margin-bottom: 2rem;
-      }
-
       li {
+        transform: translateY(20px);
+        opacity: 0;
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+        @for $i from 1 through 10 {
+          &:nth-child(#{$i}) {
+            transition-delay: #{0.1 + $i * 0.05}s;
+          }
+        }
+
         span {
           display: inline-block;
           font-size: ${vwPc(14)};
           padding: ${vwPc(8)} ${vwPc(16)};
-          background: rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.15);
           border: 2px solid rgba(255, 255, 255, 0.3);
           border-radius: 100px;
-          transition: all 0.3s ease;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           font-weight: 600;
           letter-spacing: 0.02em;
           text-transform: uppercase;
+          backdrop-filter: blur(4px);
 
           &:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
             border-color: rgba(255, 255, 255, 0.5);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
           }
 
           @media screen and (max-width: ${bpSp}) {
@@ -167,15 +158,20 @@ const styles = {
           }
         }
       }
+
+      @media screen and (max-width: ${bpSp}) {
+        gap: 0.8rem;
+        margin-bottom: 2rem;
+      }
     }
 
     .work-content__desc {
       font-size: ${vwPc(18)};
       font-weight: 500;
       line-height: 1.8;
-      transform: translateY(20px);
+      transform: translateY(30px);
       opacity: 0;
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
       transition-delay: 0.3s;
       color: rgba(255, 255, 255, 0.9);
       max-width: 80%;
@@ -194,13 +190,13 @@ const styles = {
       height: 100%;
       background: linear-gradient(
         135deg,
-        rgba(0, 0, 0, 0.9) 0%,
-        rgba(0, 0, 0, 0.85) 100%
+        rgba(0, 0, 0, 0.6) 0%,
+        rgba(0, 0, 0, 0.75) 100%
       );
       color: #fff;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       padding: ${vwPc(60)};
       text-align: left;
       backdrop-filter: blur(0px);
@@ -217,12 +213,12 @@ const styles = {
         width: 150%;
         height: 150%;
         background: radial-gradient(circle at center, 
-          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.15) 0%,
           transparent 70%
         );
-        transform: translate(-50%, -50%) scale(0.5);
+        transform: translate(-50%, -50%) scale(0.8);
         opacity: 0;
-        transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
         pointer-events: none;
       }
 
@@ -235,11 +231,11 @@ const styles = {
       position: absolute;
       top: ${vwPc(40)};
       left: ${vwPc(40)};
-      transform: translate(-20px, -20px);
+      transform: translate(-20px, -20px) rotate(-10deg);
       opacity: 0;
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      transition-delay: 0.4s;
-      background: rgba(255, 255, 255, 0.1);
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition-delay: 0.2s;
+      background: rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(8px);
       border: 2px solid rgba(255, 255, 255, 0.3);
       border-radius: 50%;
@@ -251,9 +247,9 @@ const styles = {
       justify-content: center;
       
       &:hover {
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.25);
         border-color: rgba(255, 255, 255, 0.5);
-        transform: translate(0, 0) scale(1.1);
+        transform: translate(0, 0) scale(1.1) rotate(0deg);
         box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
       }
 
@@ -269,6 +265,11 @@ const styles = {
         width: 100%;
         height: 100%;
         transform: scale(0.8);
+        transition: transform 0.3s ease;
+      }
+
+      &:hover svg {
+        transform: scale(0.9);
       }
     }
   `
