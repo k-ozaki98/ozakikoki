@@ -230,6 +230,7 @@ const ColumnCard: React.FC<Props> = ({ data }) => {
 
     return() => {
       if(cardRef.current) {
+        
         observer.unobserve(cardRef.current);
       }
     };
